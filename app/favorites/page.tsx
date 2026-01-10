@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Heart, MapPin, Euro, Star, TrendingUp, Sparkles } from 'lucide-react'
 import { motion } from 'framer-motion'
 import FavoriteButton from '@/components/FavoriteButton'
+import { useTheme } from '@/context/ThemeContext'
 
 interface Favorite {
     school_id: number
@@ -13,6 +14,7 @@ interface Favorite {
 }
 
 export default function FavoritesPage() {
+    const { currentTheme } = useTheme()
     const [favorites, setFavorites] = useState<Favorite[]>([])
     const [loading, setLoading] = useState(true)
 
@@ -37,27 +39,7 @@ export default function FavoritesPage() {
     )
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900">
-            {/* Header */}
-            <div className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-2xl font-bold text-white">Anti-Parcoursup</h1>
-                        <div className="flex items-center gap-4">
-                            <Link href="/schools" className="text-cyan-200 hover:text-white transition-colors">
-                                Écoles
-                            </Link>
-                            <Link href="/map" className="text-cyan-200 hover:text-white transition-colors">
-                                Carte
-                            </Link>
-                            <Link href="/dashboard" className="text-cyan-200 hover:text-white transition-colors">
-                                Dashboard
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
             {/* Content */}
             <div className="container mx-auto px-4 py-16">
                 <motion.div
@@ -121,8 +103,8 @@ export default function FavoritesPage() {
                                         <div className="mb-4">
                                             <span
                                                 className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${school.sector === 'Public'
-                                                        ? 'bg-green-500/20 text-green-300 border border-green-400/30'
-                                                        : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
+                                                    ? 'bg-green-500/20 text-green-300 border border-green-400/30'
+                                                    : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
                                                     }`}
                                             >
                                                 {school.sector}

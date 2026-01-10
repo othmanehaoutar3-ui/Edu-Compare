@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import FavoriteButton from '@/components/FavoriteButton'
+import { useTheme } from '@/context/ThemeContext'
 import {
     Search,
     SlidersHorizontal,
@@ -24,6 +25,7 @@ type SortOption = 'name' | 'price' | 'rate' | 'city'
 type ViewMode = 'grid' | 'list'
 
 export default function SchoolsPage() {
+    const { currentTheme } = useTheme()
     const [searchQuery, setSearchQuery] = useState('')
     const [selectedCity, setSelectedCity] = useState<string | null>(null)
     const [selectedType, setSelectedType] = useState<string | null>(null)
@@ -77,29 +79,7 @@ export default function SchoolsPage() {
     const hasActiveFilters = searchQuery || selectedCity || selectedType || selectedSector
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900">
-            {/* Header */}
-            <div className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/dashboard" className="text-2xl font-bold text-white">
-                            Anti-Parcoursup
-                        </Link>
-                        <div className="flex items-center gap-4">
-                            <Link href="/schools" className="text-white font-semibold">
-                                Liste
-                            </Link>
-                            <Link href="/map" className="text-purple-200 hover:text-white transition-colors">
-                                Carte
-                            </Link>
-                            <Link href="/blacklist" className="text-red-400 hover:text-red-300 transition-colors flex items-center gap-1">
-                                ⚠️ À Éviter
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
             <div className="container mx-auto px-4 py-12">
                 {/* Hero Section */}
                 <motion.div

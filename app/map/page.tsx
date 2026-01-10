@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { MapPin, Search, Filter, Sparkles, TrendingUp } from 'lucide-react'
 import Link from 'next/link'
 import { schools } from '@/lib/schools'
+import { useTheme } from '@/context/ThemeContext'
 import './map.css'
 
 // Dynamic import pour éviter les problèmes SSR avec Leaflet
@@ -18,6 +19,7 @@ const MapComponent = dynamic(() => import('@/components/InteractiveMap'), {
 })
 
 export default function MapPage() {
+    const { currentTheme } = useTheme()
     const [selectedCity, setSelectedCity] = useState<string | null>(null)
     const [selectedType, setSelectedType] = useState<string | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
@@ -37,35 +39,7 @@ export default function MapPage() {
     const types = Array.from(new Set(schools.map((s) => s.type))).sort()
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-900">
-            {/* Header */}
-            <div className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-50">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/dashboard" className="text-2xl font-bold text-white">
-                            Anti-Parcoursup
-                        </Link>
-                        <div className="flex items-center gap-4">
-                            <Link
-                                href="/schools"
-                                className="text-cyan-200 hover:text-white transition-colors"
-                            >
-                                Liste
-                            </Link>
-                            <Link
-                                href="/map"
-                                className="text-white font-semibold"
-                            >
-                                Carte
-                            </Link>
-                            <Link href="/blacklist" className="text-red-400 hover:text-red-300 transition-colors flex items-center gap-1">
-                                ⚠️ À Éviter
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
             {/* Main */}
             <div className="container mx-auto px-4 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

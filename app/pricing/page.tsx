@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Check, Sparkles, Zap, Crown } from 'lucide-react'
-import Link from 'next/link'
+import { useTheme } from '@/context/ThemeContext'
+import { motion } from 'framer-motion'
 
 const PLANS = [
     {
@@ -69,6 +70,7 @@ const PLANS = [
 
 export default function PricingPage() {
     const router = useRouter()
+    const { currentTheme } = useTheme()
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true)
 
@@ -101,34 +103,33 @@ export default function PricingPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+            <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center`}>
                 <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
-            {/* Header */}
-            <div className="bg-white/10 backdrop-blur-md border-b border-white/20">
-                <div className="container mx-auto px-4 py-4">
-                    <Link href="/" className="text-2xl font-bold text-white">
-                        Anti-Parcoursup
-                    </Link>
-                </div>
-            </div>
-
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
             {/* Main */}
             <div className="container mx-auto px-4 py-16">
                 {/* Title */}
-                <div className="text-center mb-16">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-center mb-16"
+                >
+                    <div className="inline-flex items-center gap-3 bg-white/10 border border-white/20 px-6 py-3 rounded-full mb-6">
+                        <Crown className="w-6 h-6 text-yellow-400" />
+                        <span className="text-white/80 font-semibold">Abonnements</span>
+                    </div>
                     <h1 className="text-5xl font-bold text-white mb-4">
                         Choisissez votre plan
                     </h1>
-                    <p className="text-purple-200 text-xl">
+                    <p className="text-white/60 text-xl">
                         Démarrez gratuitement, passez Premium quand vous êtes prêt
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Plans Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -139,7 +140,7 @@ export default function PricingPage() {
                             <div
                                 key={plan.id}
                                 className={`relative bg-white/10 backdrop-blur-md border ${plan.popular ? 'border-purple-400 border-2' : 'border-white/20'
-                                    } rounded-3xl p-8 ${plan.popular ? 'transform scale-105' : ''}`}
+                                    } rounded-3xl p-8 ${plan.popular ? 'transform scale-105' : ''} flex flex-col h-full`}
                             >
                                 {/* Popular Badge */}
                                 {plan.popular && (
@@ -165,14 +166,18 @@ export default function PricingPage() {
                                 </div>
 
                                 {/* Name & Price */}
-                                <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                                <div className="mb-2">
+                                    <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-gradient-to-r ${plan.color} text-white`}>
+                                        {plan.name}
+                                    </span>
+                                </div>
                                 <div className="mb-6">
                                     <span className="text-5xl font-bold text-white">{plan.price}€</span>
                                     <span className="text-purple-200">{plan.period}</span>
                                 </div>
 
                                 {/* Features */}
-                                <ul className="space-y-3 mb-8">
+                                <ul className="space-y-3 mb-8 flex-grow">
                                     {plan.features.map((feature, i) => (
                                         <li key={i} className="flex items-start gap-3 text-purple-200">
                                             <Check className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
@@ -190,9 +195,9 @@ export default function PricingPage() {
                                 {/* CTA Button */}
                                 <button
                                     onClick={() => handleSubscribe(plan.id, plan.stripeLink)}
-                                    className={`w-full py-4 rounded-xl font-bold transition-all ${plan.popular
-                                            ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
-                                            : 'bg-white/20 text-white hover:bg-white/30'
+                                    className={`w-full py-4 rounded-xl font-bold transition-all mt-auto ${plan.popular
+                                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                                        : 'bg-white/20 text-white hover:bg-white/30'
                                         }`}
                                 >
                                     {plan.id === 'free' ? 'Continuer gratuitement' : 'Passer Premium'}

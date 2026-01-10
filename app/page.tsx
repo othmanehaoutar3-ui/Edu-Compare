@@ -3,17 +3,12 @@
 import Link from 'next/link'
 import { ArrowRight, GraduationCap, Target, TrendingUp } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export default function Home() {
   const { currentTheme } = useTheme()
 
   return (
-    <div className={`relative min-h-screen bg-gradient-to-br ${currentTheme.gradient}`}>
-      {/* Theme Switcher - Fixed Position */}
-      <div className="fixed top-6 right-6 z-50">
-        <ThemeSwitcher />
-      </div>
+    <div className={`relative min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
 
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-16">

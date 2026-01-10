@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
+  apiVersion: '2025-12-15.clover',
 })
 
 export async function POST(request: Request) {
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object as Stripe.Checkout.Session
-      
+
       // Update user subscription status
       const { error } = await supabase
         .from('user_profiles')
@@ -47,9 +47,9 @@ export async function POST(request: Request) {
 
     case 'customer.subscription.updated': {
       const subscription = event.data.object as Stripe.Subscription
-      
+
       const status = subscription.status === 'active' ? 'premium' : 'free'
-      
+
       // Find user by subscription ID and update
       const { error } = await supabase
         .from('user_profiles')
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
 
     case 'customer.subscription.deleted': {
       const subscription = event.data.object as Stripe.Subscription
-      
+
       // Downgrade to free
       const { error } = await supabase
         .from('user_profiles')

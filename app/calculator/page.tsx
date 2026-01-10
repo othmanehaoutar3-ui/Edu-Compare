@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { BarChart3, Lock, Sparkles, TrendingUp, Award, Calendar, MapPin, GraduationCap } from 'lucide-react'
 import Link from 'next/link'
+import { useTheme } from '@/context/ThemeContext'
 
 type CalculatorResult = {
     probability: number
@@ -23,6 +24,7 @@ type CalculatorResult = {
 
 export default function CalculatorPage() {
     const router = useRouter()
+    const { currentTheme } = useTheme()
     const [user, setUser] = useState<any>(null)
     const [isPremium, setIsPremium] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -111,31 +113,14 @@ export default function CalculatorPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+            <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center`}>
                 <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
-            {/* Header */}
-            <div className="bg-white/10 backdrop-blur-md border-b border-white/20">
-                <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <Link href="/dashboard" className="text-2xl font-bold text-white">
-                            Anti-Parcoursup
-                        </Link>
-                        {isPremium && (
-                            <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
-                                <Sparkles className="w-4 h-4" />
-                                Premium
-                            </span>
-                        )}
-                    </div>
-                </div>
-            </div>
-
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} pt-24`}>
             {/* Main */}
             <div className="container mx-auto px-4 py-12">
                 <div className="max-w-4xl mx-auto">
@@ -297,9 +282,9 @@ export default function CalculatorPage() {
                                 <div className="space-y-6">
                                     {/* Probability Card */}
                                     <div className={`bg-gradient-to-br ${result.category.toLowerCase().includes('excellentes') ? 'from-green-500 to-emerald-600' :
-                                            result.category.toLowerCase().includes('bonnes') ? 'from-blue-500 to-cyan-600' :
-                                                result.category.toLowerCase().includes('moyennes') ? 'from-yellow-500 to-orange-600' :
-                                                    'from-red-500 to-pink-600'
+                                        result.category.toLowerCase().includes('bonnes') ? 'from-blue-500 to-cyan-600' :
+                                            result.category.toLowerCase().includes('moyennes') ? 'from-yellow-500 to-orange-600' :
+                                                'from-red-500 to-pink-600'
                                         } rounded-3xl p-8 text-white`}>
                                         <div className="text-center">
                                             <TrendingUp className="w-16 h-16 mx-auto mb-4" />

@@ -5,9 +5,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Mail, Lock, ArrowRight, Chrome } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { useTheme } from '@/context/ThemeContext'
 
 export default function LoginPage() {
     const router = useRouter()
+    const { currentTheme } = useTheme()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
@@ -50,7 +52,7 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-4">
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center p-4 pt-28`}>
             <div className="w-full max-w-md">
                 {/* Logo */}
                 <div className="text-center mb-8">

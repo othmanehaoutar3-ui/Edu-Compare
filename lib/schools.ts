@@ -11,6 +11,8 @@ export type School = {
   salary?: string
   url?: string
   rank?: number
+  ranking?: number
+  acceptanceRate?: number
 }
 
 export const schools = (schoolsData as any).schools as School[]
@@ -21,7 +23,7 @@ export function getSchoolById(id: number): School | undefined {
 
 export function searchSchools(query: string): School[] {
   const lowerQuery = query.toLowerCase()
-  return schools.filter(school => 
+  return schools.filter(school =>
     school.name.toLowerCase().includes(lowerQuery) ||
     school.city.toLowerCase().includes(lowerQuery) ||
     school.type.toLowerCase().includes(lowerQuery)
