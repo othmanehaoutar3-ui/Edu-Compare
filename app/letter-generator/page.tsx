@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Wand2, Download, Copy, Check, Sparkles } from 'lucide-react'
 import Link from 'next/link'
+import { useTheme } from '@/context/ThemeContext'
 
 export default function LetterGeneratorPage() {
     const router = useRouter()
+    const { currentTheme } = useTheme()
     const [user, setUser] = useState<any>(null)
     const [isPremium, setIsPremium] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -96,14 +98,14 @@ export default function LetterGeneratorPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+            <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center`}>
                 <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin" />
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient}`}>
             {/* Header */}
             <div className="bg-white/10 backdrop-blur-md border-b border-white/20">
                 <div className="container mx-auto px-4 py-4">

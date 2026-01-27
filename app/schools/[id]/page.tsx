@@ -1,20 +1,93 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, MapPin, Euro, TrendingUp, Star, Heart, BarChart3 } from 'lucide-react'
+import { ArrowLeft, MapPin, Euro, TrendingUp, Star, Heart, BarChart3, Loader2 } from 'lucide-react'
 import { getSchoolById, type School } from '@/lib/schools'
+import { createClient } from '@/lib/supabase/client'
 
 export default function SchoolDetailPage() {
     const params = useParams()
+    const router = useRouter()
     const [school, setSchool] = useState<School | null>(null)
+    const [isFavorite, setIsFavorite] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [user, setUser] = useState<any>(null)
 
     useEffect(() => {
         const id = parseInt(params.id as string)
         const foundSchool = getSchoolById(id)
         setSchool(foundSchool || null)
+
+        // Check if user is logged in and if school is in favorites
+        const checkFavorite = async () => {
+            const supabase = createClient()
+            const { data: { user } } = await supabase.auth.getUser()
+            setUser(user)
+
+            if (user && foundSchool) {
+                const { data } = await supabase
+                    .from('favorites')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .eq('school_id', foundSchool.id)
+                    .single()
+
+                setIsFavorite(!!data)
+            }
+        }
+        checkFavorite()
     }, [params])
+
+    const handleToggleFavorite = async () => {
+        if (!school) return
+
+        if (!user) {
+            router.push('/login')
+            return
+        }
+
+        setIsLoading(true)
+
+        try {
+            if (isFavorite) {
+                // Remove from favorites
+                const response = await fetch('/api/favorites/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ schoolId: school.id }),
+                })
+
+                if (response.ok) {
+                    setIsFavorite(false)
+                }
+            } else {
+                // Add to favorites
+                const response = await fetch('/api/favorites/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ schoolId: school.id }),
+                })
+
+                const data = await response.json()
+
+                if (response.ok) {
+                    setIsFavorite(true)
+                } else if (data.requiresUpgrade) {
+                    alert('Vous avez atteint la limite de 5 favoris. Passez Premium pour des favoris illimités !')
+                    router.push('/pricing')
+                } else {
+                    alert(data.error || 'Erreur lors de l\'ajout aux favoris')
+                }
+            }
+        } catch (error) {
+            console.error('Error toggling favorite:', error)
+            alert('Erreur lors de la mise à jour des favoris')
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     if (!school) {
         return (
@@ -54,8 +127,8 @@ export default function SchoolDetailPage() {
                             <div className="flex items-start justify-between mb-6">
                                 <div>
                                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4 ${school.sector === 'Public'
-                                            ? 'bg-green-500/20 text-green-300'
-                                            : 'bg-blue-500/20 text-blue-300'
+                                        ? 'bg-green-500/20 text-green-300'
+                                        : 'bg-blue-500/20 text-blue-300'
                                         }`}>
                                         {school.sector}
                                     </span>
@@ -69,8 +142,19 @@ export default function SchoolDetailPage() {
                                         <span>{school.type}</span>
                                     </div>
                                 </div>
-                                <button className="bg-pink-500/20 border border-pink-400/30 text-pink-300 p-3 rounded-full hover:bg-pink-500/30 transition-all">
-                                    <Heart className="w-6 h-6" />
+                                <button
+                                    onClick={handleToggleFavorite}
+                                    disabled={isLoading}
+                                    className={`p-3 rounded-full transition-all ${isFavorite
+                                            ? 'bg-pink-500 text-white'
+                                            : 'bg-pink-500/20 border border-pink-400/30 text-pink-300 hover:bg-pink-500/30'
+                                        }`}
+                                >
+                                    {isLoading ? (
+                                        <Loader2 className="w-6 h-6 animate-spin" />
+                                    ) : (
+                                        <Heart className={`w-6 h-6 ${isFavorite ? 'fill-current' : ''}`} />
+                                    )}
                                 </button>
                             </div>
 
@@ -130,12 +214,29 @@ export default function SchoolDetailPage() {
                                     </a>
                                 )}
 
-                                <button className="w-full bg-purple-500/20 border border-purple-400/30 text-white py-3 rounded-xl font-semibold hover:bg-purple-500/30 transition-all">
+                                <Link
+                                    href={`/calculator?school=${encodeURIComponent(school.name)}`}
+                                    className="block w-full bg-purple-500/20 border border-purple-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-purple-500/30 transition-all"
+                                >
                                     Calculer mes chances
-                                </button>
+                                </Link>
 
-                                <button className="w-full bg-white/10 border border-white/20 text-white py-3 rounded-xl font-semibold hover:bg-white/20 transition-all">
-                                    Ajouter aux favoris
+                                <button
+                                    onClick={handleToggleFavorite}
+                                    disabled={isLoading}
+                                    className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${isFavorite
+                                            ? 'bg-pink-500 text-white hover:bg-pink-600'
+                                            : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+                                        }`}
+                                >
+                                    {isLoading ? (
+                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                    ) : (
+                                        <>
+                                            <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+                                            {isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+                                        </>
+                                    )}
                                 </button>
                             </div>
                         </div>
@@ -145,9 +246,12 @@ export default function SchoolDetailPage() {
                             <p className="text-purple-200 text-sm mb-4">
                                 Débloquez toutes les statistiques et calculez vos chances réelles d'admission.
                             </p>
-                            <button className="w-full bg-white text-purple-900 py-3 rounded-xl font-semibold hover:bg-purple-50 transition-all">
+                            <Link
+                                href="/pricing"
+                                className="block w-full bg-white text-purple-900 py-3 rounded-xl font-semibold text-center hover:bg-purple-50 transition-all"
+                            >
                                 Passer Premium
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -155,3 +259,4 @@ export default function SchoolDetailPage() {
         </div>
     )
 }
+

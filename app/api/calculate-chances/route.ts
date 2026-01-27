@@ -3,7 +3,68 @@ import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import { schools } from '@/lib/schools'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+
+// Fallback calculation algorithm when AI is unavailable
+function calculateFallback(average: number, bacType: string, fieldOfStudy: string, school: any, extracurriculars: string) {
+  // Base probability from average (0-80 points)
+  let baseProb = (average / 20) * 60
+
+  // Bac type bonus (0-15 points)
+  if (bacType === 'Général') baseProb += 15
+  else if (bacType === 'Technologique') baseProb += 10
+  else baseProb += 5
+
+  // School selectivity factor
+  if (school.acceptanceRate) {
+    baseProb = baseProb * (school.acceptanceRate / 100 + 0.5)
+  }
+
+  // Field alignment bonus
+  const schoolType = school.type?.toLowerCase() || ''
+  if (fieldOfStudy.toLowerCase().includes('commerce') && schoolType.includes('commerce')) baseProb += 10
+  if (fieldOfStudy.toLowerCase().includes('ingénieur') && schoolType.includes('ingénieur')) baseProb += 10
+
+  // Extra-curricular bonus
+  if (extracurriculars && extracurriculars.length > 20) baseProb += 5
+
+  const probability = Math.min(Math.max(Math.round(baseProb), 5), 95)
+
+  // Determine category
+  let category = 'Faibles'
+  if (probability >= 75) category = 'Excellentes'
+  else if (probability >= 55) category = 'Bonnes'
+  else if (probability >= 35) category = 'Moyennes'
+
+  // Generate contextual feedback
+  const strengths = []
+  const weaknesses = []
+  const recommendations = []
+
+  if (average >= 16) strengths.push('Excellente moyenne générale')
+  else if (average >= 14) strengths.push('Bonne moyenne générale')
+  else weaknesses.push('Moyenne à améliorer')
+
+  if (bacType === 'Général') strengths.push('Bac général valorisé')
+  else recommendations.push('Mettre en avant vos compétences pratiques')
+
+  if (extracurriculars) strengths.push('Activités extrascolaires diversifiées')
+  else recommendations.push('Développer des activités extrascolaires')
+
+  if (school.sector === 'Public') strengths.push('Formation accessible financièrement')
+
+  recommendations.push('Préparer soigneusement votre lettre de motivation')
+  recommendations.push('Vous renseigner sur les spécificités de l\'école')
+
+  return {
+    probability,
+    category,
+    strengths: strengths.slice(0, 3),
+    weaknesses: weaknesses.slice(0, 2),
+    recommendations: recommendations.slice(0, 3),
+    insights: `Avec une moyenne de ${average}/20 et un Bac ${bacType}, vos chances d'admission à ${school.name} sont estimées à ${probability}%. ${category === 'Excellentes' || category === 'Bonnes' ? 'Votre profil correspond bien aux attentes de cette formation.' : 'Il est recommandé de renforcer votre dossier pour maximiser vos chances.'}`
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -25,12 +86,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Premium required' }, { status: 403 })
     }
 
-    const { 
-      schoolName, 
-      average, 
-      bacType, 
-      fieldOfStudy, 
-      extracurriculars 
+    const {
+      schoolName,
+      average,
+      bacType,
+      fieldOfStudy,
+      extracurriculars
     } = await request.json()
 
     // Input validation
@@ -50,10 +111,13 @@ export async function POST(request: Request) {
       )
     }
 
-    // Build AI prompt with school context
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+    let aiData
 
-    const prompt = `Tu es un expert en orientation scolaire et admission dans l'enseignement supérieur français. 
+    // Try AI first, fallback to algorithm if it fails
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+      const prompt = `Tu es un expert en orientation scolaire et admission dans l'enseignement supérieur français. 
 Tu dois analyser avec précision les chances d'admission d'un candidat dans une école.
 
 📚 **INFORMATIONS SUR L'ÉCOLE :**
@@ -93,36 +157,20 @@ Analyse ce profil et fournis une évaluation RÉALISTE et BASÉE SUR DES DONNÉE
 
 Sois HONNÊTE et PRÉCIS. Ne surestime ni ne sous-estime. Base ton évaluation sur des critères objectifs.`
 
-    const result = await model.generateContent(prompt)
-    const response = result.response.text()
+      const result = await model.generateContent(prompt)
+      const response = result.response.text()
 
-    // Parse AI response
-    let aiData
-    try {
-      // Extract JSON from response (in case there's extra text)
+      // Parse AI response
       const jsonMatch = response.match(/\{[\s\S]*\}/)
       if (jsonMatch) {
         aiData = JSON.parse(jsonMatch[0])
       } else {
         throw new Error('No JSON found in response')
       }
-    } catch (parseError) {
-      console.error('Error parsing AI response:', parseError)
-      console.log('Raw response:', response)
-      
-      // Fallback to simulated calculation
-      const baseProb = average * 4 + (bacType === 'Général' ? 10 : 5)
-      const schoolFactor = school.acceptanceRate ? (school.acceptanceRate / 100) * 20 : 0
-      const probability = Math.min(Math.max(baseProb + schoolFactor, 10), 95)
-      
-      aiData = {
-        probability: Math.round(probability),
-        category: probability >= 70 ? 'Bonnes' : probability >= 50 ? 'Moyennes' : 'Faibles',
-        strengths: ['Profil intéressant', 'Formation adaptée'],
-        weaknesses: ['Données insuffisantes pour analyse complète'],
-        recommendations: ['Renforcer le dossier', 'Préparer les entretiens'],
-        insights: 'Analyse basée sur les données disponibles. Pour une évaluation plus précise, consultez directement l\'école.'
-      }
+    } catch (aiError: any) {
+      console.log('AI unavailable, using fallback algorithm:', aiError.message)
+      // Use fallback algorithm
+      aiData = calculateFallback(average, bacType, fieldOfStudy, school, extracurriculars)
     }
 
     // Validate and normalize the data
@@ -157,18 +205,10 @@ Sois HONNÊTE et PRÉCIS. Ne surestime ni ne sous-estime. Base ton évaluation s
     return NextResponse.json(calculationResult)
   } catch (error: any) {
     console.error('Error calculating chances:', error)
-
-    // More specific error messages
-    if (error.message?.includes('API key')) {
-      return NextResponse.json(
-        { error: 'Service temporairement indisponible. Veuillez réessayer plus tard.' },
-        { status: 503 }
-      )
-    }
-
     return NextResponse.json(
       { error: error.message || 'Failed to calculate chances' },
       { status: 500 }
     )
   }
 }
+

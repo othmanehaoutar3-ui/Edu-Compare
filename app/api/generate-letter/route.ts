@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
 
 // Letter templates by school type
 const TEMPLATES = {
@@ -38,6 +38,21 @@ function getTemplate(schoolType: string) {
   return TEMPLATES.default
 }
 
+// Fallback letter generator when AI is unavailable
+function generateFallbackLetter(schoolName: string, program: string, motivation: string, strengths: string, experience: string) {
+  return `Depuis plusieurs années, je nourris une véritable passion pour le domaine de ${program}. C'est donc avec un grand enthousiasme que je vous présente ma candidature à ${schoolName}, établissement qui jouit d'une excellente réputation dans ce secteur.
+
+Mon intérêt pour cette formation s'est construit progressivement au fil de mon parcours scolaire. ${motivation} Cette conviction profonde m'a poussé à m'investir pleinement dans mes études et à développer des compétences qui, je le pense, correspondent aux exigences de votre formation.
+
+${strengths ? `Parmi mes atouts, je peux notamment citer : ${strengths}. Ces qualités, acquises au fil de mes expériences, me permettent d'aborder les défis avec méthode et détermination.` : 'Je suis reconnu pour ma rigueur, ma curiosité intellectuelle et ma capacité à travailler en équipe.'}
+
+${experience ? `Mon parcours m'a également permis d'acquérir une expérience concrète : ${experience}. Ces expériences ont renforcé ma motivation et m'ont permis de mieux comprendre les réalités du terrain.` : 'Je suis convaincu que votre formation me permettra d\'acquérir les compétences pratiques nécessaires à la réalisation de mes objectifs professionnels.'}
+
+Intégrer ${schoolName} représente pour moi une opportunité unique de bénéficier d'un enseignement de qualité et de me préparer efficacement à ma future carrière. Je suis prêt à m'investir pleinement dans cette formation et à contribuer activement à la vie de votre établissement.
+
+Je reste à votre disposition pour tout entretien qui vous permettrait de mieux apprécier ma motivation et mes capacités.`
+}
+
 export async function POST(request: Request) {
   try {
     const supabase = await createClient()
@@ -71,10 +86,13 @@ export async function POST(request: Request) {
     // Get appropriate template
     const template = getTemplate(schoolType || 'default')
 
-    // Generate letter with Gemini
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+    let letterBody
 
-    const prompt = `Tu es un expert en lettres de motivation pour les écoles supérieures françaises. 
+    // Try AI first, fallback if it fails
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+      const prompt = `Tu es un expert en lettres de motivation pour les écoles supérieures françaises. 
 Génère une lettre de motivation professionnelle et personnalisée avec ces informations :
 
 École/Formation : ${schoolName}
@@ -102,8 +120,12 @@ IMPORTANT : Génère UNIQUEMENT le corps de la lettre, SANS :
 
 Commence directement par l'introduction de la lettre.`
 
-    const result = await model.generateContent(prompt)
-    const letterBody = result.response.text()
+      const result = await model.generateContent(prompt)
+      letterBody = result.response.text()
+    } catch (aiError: any) {
+      console.log('AI unavailable, using fallback letter:', aiError.message)
+      letterBody = generateFallbackLetter(schoolName, program, motivation, strengths, experience)
+    }
 
     // Save to history (optional)
     try {
@@ -130,18 +152,10 @@ Commence directement par l'introduction de la lettre.`
     })
   } catch (error: any) {
     console.error('Error generating letter:', error)
-
-    // More specific error messages
-    if (error.message?.includes('API key')) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable. Please try again later.' },
-        { status: 503 }
-      )
-    }
-
     return NextResponse.json(
       { error: error.message || 'Failed to generate letter' },
       { status: 500 }
     )
   }
 }
+

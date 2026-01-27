@@ -3,9 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Check, Sparkles, Zap, Crown } from 'lucide-react'
+import { Check, Sparkles, Zap, Crown, Loader2 } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
 import { motion } from 'framer-motion'
+import { loadStripe } from '@stripe/stripe-js'
+
+// Initialize Stripe
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 const PLANS = [
     {
@@ -15,6 +19,7 @@ const PLANS = [
         period: '',
         icon: Zap,
         color: 'from-gray-500 to-gray-600',
+        subtitle: 'Pour découvrir la plateforme',
         features: [
             'Accès aux 500+ écoles',
             'Recherche et filtres basiques',
@@ -37,6 +42,7 @@ const PLANS = [
         icon: Sparkles,
         color: 'from-purple-500 to-pink-500',
         popular: true,
+        subtitle: 'Toutes les fonctionnalités IA',
         features: [
             'Tout du plan Gratuit',
             '🔮 Calculator IA illimité',
@@ -47,7 +53,7 @@ const PLANS = [
             '🚀 Support prioritaire',
             '📈 Suivi de candidatures',
         ],
-        stripeLink: 'https://buy.stripe.com/test_premium_monthly',
+        priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || 'price_monthly',
     },
     {
         id: 'premium_yearly',
@@ -57,6 +63,7 @@ const PLANS = [
         icon: Crown,
         color: 'from-yellow-400 to-yellow-600',
         badge: '-33%',
+        subtitle: 'Le meilleur rapport qualité-prix',
         features: [
             'Tout du plan Premium',
             '💎 2 mois gratuits',
@@ -64,7 +71,7 @@ const PLANS = [
             '🏆 Badge exclusif',
             '📞 Conseil orientation (1h/an)',
         ],
-        stripeLink: 'https://buy.stripe.com/test_premium_yearly',
+        priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || 'price_yearly',
     },
 ]
 
@@ -73,6 +80,7 @@ export default function PricingPage() {
     const { currentTheme } = useTheme()
     const [user, setUser] = useState<any>(null)
     const [loading, setLoading] = useState(true)
+    const [processingPlan, setProcessingPlan] = useState<string | null>(null)
 
     useEffect(() => {
         const checkUser = async () => {
@@ -84,7 +92,7 @@ export default function PricingPage() {
         checkUser()
     }, [])
 
-    const handleSubscribe = async (planId: string, stripeLink?: string) => {
+    const handleSubscribe = async (planId: string, priceId?: string) => {
         if (!user) {
             router.push('/login')
             return
@@ -95,9 +103,43 @@ export default function PricingPage() {
             return
         }
 
-        // TODO: Implement Stripe checkout
-        if (stripeLink) {
-            window.location.href = stripeLink
+        if (!priceId) {
+            console.error('No price ID provided')
+            return
+        }
+
+        setProcessingPlan(planId)
+
+        try {
+            // Call the checkout API
+            const response = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ priceId }),
+            })
+
+            const { url, error } = await response.json()
+
+            if (error) {
+                console.error('Checkout error:', error)
+                alert('Erreur lors du paiement. Veuillez réessayer.')
+                setProcessingPlan(null)
+                return
+            }
+
+            // Redirect to Stripe Checkout URL
+            if (url) {
+                window.location.href = url
+            } else {
+                alert('Erreur: URL de paiement non disponible.')
+            }
+        } catch (err) {
+            console.error('Error:', err)
+            alert('Une erreur est survenue. Veuillez réessayer.')
+        } finally {
+            setProcessingPlan(null)
         }
     }
 
@@ -160,17 +202,25 @@ export default function PricingPage() {
                                     </div>
                                 )}
 
-                                {/* Icon */}
-                                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-br ${plan.color} mb-6`}>
-                                    <Icon className="w-8 h-8 text-white" />
-                                </div>
+                                {/* Header with Plan Name */}
+                                <div className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${plan.color} p-6 mb-5`}>
+                                    {/* Decorative circles */}
+                                    <div className="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full" />
+                                    <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-white/5 rounded-full" />
 
-                                {/* Name & Price */}
-                                <div className="mb-2">
-                                    <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-gradient-to-r ${plan.color} text-white`}>
-                                        {plan.name}
-                                    </span>
+                                    <div className="relative flex items-center justify-between">
+                                        <div>
+                                            <p className="text-white/70 text-xs uppercase tracking-wider mb-1">Plan</p>
+                                            <h3 className="text-2xl font-bold text-white">{plan.name}</h3>
+                                        </div>
+                                        <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm">
+                                            <Icon className="w-8 h-8 text-white" />
+                                        </div>
+                                    </div>
                                 </div>
+                                <p className="text-white/60 text-sm mb-5 italic">{plan.subtitle}</p>
+
+                                {/* Price */}
                                 <div className="mb-6">
                                     <span className="text-5xl font-bold text-white">{plan.price}€</span>
                                     <span className="text-purple-200">{plan.period}</span>
@@ -194,13 +244,21 @@ export default function PricingPage() {
 
                                 {/* CTA Button */}
                                 <button
-                                    onClick={() => handleSubscribe(plan.id, plan.stripeLink)}
-                                    className={`w-full py-4 rounded-xl font-bold transition-all mt-auto ${plan.popular
+                                    onClick={() => handleSubscribe(plan.id, plan.priceId)}
+                                    disabled={processingPlan === plan.id}
+                                    className={`w-full py-4 rounded-xl font-bold transition-all mt-auto flex items-center justify-center gap-2 ${plan.popular
                                         ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
                                         : 'bg-white/20 text-white hover:bg-white/30'
-                                        }`}
+                                        } ${processingPlan === plan.id ? 'opacity-70 cursor-not-allowed' : ''}`}
                                 >
-                                    {plan.id === 'free' ? 'Continuer gratuitement' : 'Passer Premium'}
+                                    {processingPlan === plan.id ? (
+                                        <>
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                            Chargement...
+                                        </>
+                                    ) : (
+                                        plan.id === 'free' ? 'Continuer gratuitement' : 'Passer Premium'
+                                    )}
                                 </button>
                             </div>
                         )

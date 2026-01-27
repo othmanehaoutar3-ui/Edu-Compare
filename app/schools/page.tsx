@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import FavoriteButton from '@/components/FavoriteButton'
 import { useTheme } from '@/context/ThemeContext'
+import { createClient } from '@/lib/supabase/client'
 import {
     Search,
     SlidersHorizontal,
@@ -33,6 +34,27 @@ export default function SchoolsPage() {
     const [sortBy, setSortBy] = useState<SortOption>('name')
     const [viewMode, setViewMode] = useState<ViewMode>('grid')
     const [showFilters, setShowFilters] = useState(false)
+    const [userFavorites, setUserFavorites] = useState<number[]>([])
+
+    // Load user favorites on mount
+    useEffect(() => {
+        const loadFavorites = async () => {
+            const supabase = createClient()
+            const { data: { user } } = await supabase.auth.getUser()
+
+            if (user) {
+                const { data: favorites } = await supabase
+                    .from('favorites')
+                    .select('school_id')
+                    .eq('user_id', user.id)
+
+                if (favorites) {
+                    setUserFavorites(favorites.map(f => f.school_id))
+                }
+            }
+        }
+        loadFavorites()
+    }, [])
 
     // Filter schools
     const filteredSchools = schools
@@ -277,7 +299,7 @@ export default function SchoolsPage() {
                                     >
                                         {/* Favorite Button */}
                                         <div className="absolute top-4 right-4 z-10" onClick={(e) => e.preventDefault()}>
-                                            <FavoriteButton schoolId={school.id} />
+                                            <FavoriteButton schoolId={school.id} initialIsFavorite={userFavorites.includes(school.id)} />
                                         </div>
 
                                         {/* Header */}

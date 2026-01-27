@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react'
+import { useTheme } from '@/context/ThemeContext'
 
 const steps = [
     {
@@ -61,6 +62,7 @@ const steps = [
 ]
 
 export default function OnboardingPage() {
+    const { currentTheme } = useTheme()
     const [currentStep, setCurrentStep] = useState(0)
     const [answers, setAnswers] = useState<Record<number, string | number>>({})
     const [isCompleting, setIsCompleting] = useState(false)
@@ -97,7 +99,7 @@ export default function OnboardingPage() {
     const canProceed = answers[currentStep] !== undefined
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center p-4">
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center p-4`}>
             <div className="w-full max-w-2xl">
                 {/* Progress Bar */}
                 <div className="mb-8">
@@ -167,8 +169,8 @@ export default function OnboardingPage() {
                                             key={option.value}
                                             onClick={() => handleAnswer(option.value)}
                                             className={`p-6 rounded-2xl border-2 transition-all text-left ${answers[currentStep] === option.value
-                                                    ? 'bg-purple-500/30 border-purple-400'
-                                                    : 'bg-white/5 border-white/20 hover:bg-white/10'
+                                                ? 'bg-purple-500/30 border-purple-400'
+                                                : 'bg-white/5 border-white/20 hover:bg-white/10'
                                                 }`}
                                         >
                                             <div className="flex items-center justify-between">

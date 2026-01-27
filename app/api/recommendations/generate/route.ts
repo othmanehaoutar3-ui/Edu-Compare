@@ -2,7 +2,38 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+
+// Fallback recommendations when AI is unavailable
+function getFallbackRecommendations() {
+  return {
+    recommendations: [
+      {
+        type: 'Grande École de Commerce',
+        reason: 'Formation d\'excellence avec forte insertion professionnelle',
+        keywords: ['business', 'management', 'international'],
+      },
+      {
+        type: 'École d\'Ingénieurs',
+        reason: 'Expertise technique et scientifique très recherchée',
+        keywords: ['ingénierie', 'technologie', 'innovation'],
+      },
+      {
+        type: 'Université',
+        reason: 'Formation académique complète et accessible',
+        keywords: ['recherche', 'théorie', 'public'],
+      },
+      {
+        type: 'IUT',
+        reason: 'Formation professionnalisante courte et efficace',
+        keywords: ['pratique', 'alternance', 'technique'],
+      },
+    ],
+    matchCriteria: {
+      types: ['École de commerce', 'École d\'ingénieurs', 'Université']
+    },
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -32,7 +63,6 @@ export async function POST(request: Request) {
     // Build a profile for recommendations
     const userProfile = {
       preferences: userPrefs,
-      // You can add more data like past searches, favorites, etc.
     }
 
     // Get user's favorites to avoid recommending them
@@ -43,10 +73,13 @@ export async function POST(request: Request) {
 
     const favoriteIds = favorites?.map((f) => f.school_id) || []
 
-    // Generate recommendations with AI
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+    let recommendations
 
-    const prompt = `Tu es un conseiller d'orientation expert. Analyse ce profil utilisateur et recommande les MEILLEURS types d'écoles/formations qui correspondent :
+    // Try AI first, fallback if it fails
+    try {
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+
+      const prompt = `Tu es un conseiller d'orientation expert. Analyse ce profil utilisateur et recommande les MEILLEURS types d'écoles/formations qui correspondent :
 
 Profil utilisateur :
 ${JSON.stringify(userProfile, null, 2)}
@@ -77,36 +110,24 @@ Réponds UNIQUEMENT avec un objet JSON dans ce format exact :
 
 Limite à ${limit} recommandations maximum. Sois précis et pertinent.`
 
-    const result = await model.generateContent(prompt)
-    let aiResponse = result.response.text()
+      const result = await model.generateContent(prompt)
+      let aiResponse = result.response.text()
 
-    // Clean the response to extract JSON
-    aiResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+      // Clean the response to extract JSON
+      aiResponse = aiResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
-    let recommendations
-    try {
-      recommendations = JSON.parse(aiResponse)
-    } catch (parseError) {
-      console.error('Failed to parse AI response:', aiResponse)
-      // Fallback to simple recommendations
-      recommendations = {
-        recommendations: [
-          {
-            type: 'Université',
-            reason: 'Formation académique solide et accessible',
-            keywords: ['recherche', 'théorie', 'public'],
-          },
-          {
-            type: 'Grande École',
-            reason: 'Excellence et réseau professionnel',
-            keywords: ['prestige', 'sélectif', 'carrière'],
-          },
-        ],
-        matchCriteria: {},
+      try {
+        recommendations = JSON.parse(aiResponse)
+      } catch (parseError) {
+        console.error('Failed to parse AI response:', aiResponse)
+        recommendations = getFallbackRecommendations()
       }
+    } catch (aiError: any) {
+      console.log('AI unavailable, using fallback recommendations:', aiError.message)
+      recommendations = getFallbackRecommendations()
     }
 
-    // Save recommendation request to analytics
+    // Save recommendation request to analytics (optional)
     try {
       await supabase.from('recommendations_log').insert({
         user_id: user.id,
@@ -126,3 +147,4 @@ Limite à ${limit} recommandations maximum. Sois précis et pertinent.`
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
+

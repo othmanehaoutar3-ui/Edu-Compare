@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
+const FREE_FAVORITES_LIMIT = 5
+
 export async function POST(request: Request) {
   try {
     const supabase = await createClient()
@@ -14,6 +16,32 @@ export async function POST(request: Request) {
 
     if (!schoolId) {
       return NextResponse.json({ error: 'School ID required' }, { status: 400 })
+    }
+
+    // Check subscription status
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('subscription_status')
+      .eq('id', user.id)
+      .single()
+
+    const isPremium = profile?.subscription_status === 'premium'
+
+    // Check favorites limit for free users
+    if (!isPremium) {
+      const { count } = await supabase
+        .from('favorites')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id)
+
+      if (count !== null && count >= FREE_FAVORITES_LIMIT) {
+        return NextResponse.json({
+          error: 'Favorites limit reached',
+          limit: FREE_FAVORITES_LIMIT,
+          isPremium: false,
+          message: `Vous avez atteint la limite de ${FREE_FAVORITES_LIMIT} favoris. Passez Premium pour des favoris illimités !`
+        }, { status: 403 })
+      }
     }
 
     // Add to favorites
