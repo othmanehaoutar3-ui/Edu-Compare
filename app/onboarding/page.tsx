@@ -107,12 +107,12 @@ export default function OnboardingPage() {
                         {steps.map((step, idx) => (
                             <div
                                 key={step.id}
-                                className={`w-full h-2 rounded-full mx-1 transition-all ${idx <= currentStep ? 'bg-purple-400' : 'bg-purple-900/50'
+                                className={`w-full h-2 rounded-full mx-1 transition-all ${idx <= currentStep ? 'bg-blue-400' : 'bg-blue-900/50'
                                     }`}
                             />
                         ))}
                     </div>
-                    <p className="text-purple-300 text-sm text-center">
+                    <p className="text-blue-300 text-sm text-center">
                         Étape {currentStep + 1} sur {steps.length}
                     </p>
                 </div>
@@ -131,12 +131,12 @@ export default function OnboardingPage() {
                             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
                                 {currentStepData.title}
                             </h2>
-                            <p className="text-purple-200 mb-8">{currentStepData.description}</p>
+                            <p className="text-blue-200 mb-8">{currentStepData.description}</p>
 
                             {/* Options or Slider */}
                             {currentStepData.type === 'slider' ? (
                                 <div className="space-y-6">
-                                    <div className="flex justify-between text-purple-200 text-sm">
+                                    <div className="flex justify-between text-blue-200 text-sm">
                                         <span>0</span>
                                         <span className="text-2xl font-bold text-white">
                                             {answers[currentStep] || 10}/20
@@ -150,12 +150,12 @@ export default function OnboardingPage() {
                                         step="0.5"
                                         value={answers[currentStep] || 10}
                                         onChange={(e) => handleAnswer(parseFloat(e.target.value))}
-                                        className="w-full h-3 bg-purple-900/50 rounded-lg appearance-none cursor-pointer
+                                        className="w-full h-3 bg-blue-900/50 rounded-lg appearance-none cursor-pointer
                       [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-6 
                       [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:rounded-full 
-                      [&::-webkit-slider-thumb]:bg-purple-400 [&::-webkit-slider-thumb]:cursor-pointer"
+                      [&::-webkit-slider-thumb]:bg-blue-400 [&::-webkit-slider-thumb]:cursor-pointer"
                                     />
-                                    <div className="flex justify-between text-xs text-purple-300">
+                                    <div className="flex justify-between text-xs text-blue-300">
                                         <span>Faible</span>
                                         <span>Moyen</span>
                                         <span>Bon</span>
@@ -169,7 +169,7 @@ export default function OnboardingPage() {
                                             key={option.value}
                                             onClick={() => handleAnswer(option.value)}
                                             className={`p-6 rounded-2xl border-2 transition-all text-left ${answers[currentStep] === option.value
-                                                ? 'bg-purple-500/30 border-purple-400'
+                                                ? 'bg-blue-500/30 border-blue-400'
                                                 : 'bg-white/5 border-white/20 hover:bg-white/10'
                                                 }`}
                                         >
@@ -178,7 +178,7 @@ export default function OnboardingPage() {
                                                     {option.label}
                                                 </span>
                                                 {answers[currentStep] === option.value && (
-                                                    <Check className="w-6 h-6 text-purple-400" />
+                                                    <Check className="w-6 h-6 text-blue-400" />
                                                 )}
                                             </div>
                                         </button>
@@ -203,13 +203,13 @@ export default function OnboardingPage() {
                         <button
                             onClick={handleNext}
                             disabled={!canProceed || isCompleting}
-                            className="flex-1 bg-white text-purple-900 px-6 py-4 rounded-full font-semibold
-                disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-50 transition-all 
+                            className="flex-1 bg-white text-blue-900 px-6 py-4 rounded-full font-semibold
+                disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-50 transition-all 
                 flex items-center justify-center gap-2 group"
                         >
                             {isCompleting ? (
                                 <>
-                                    <div className="w-5 h-5 border-2 border-purple-900/20 border-t-purple-900 rounded-full animate-spin" />
+                                    <div className="w-5 h-5 border-2 border-blue-900/20 border-t-blue-900 rounded-full animate-spin" />
                                     Analyse en cours...
                                 </>
                             ) : (
@@ -223,7 +223,7 @@ export default function OnboardingPage() {
                 </div>
 
                 {/* Skip */}
-                <p className="text-purple-300 text-center mt-6 text-sm">
+                <p className="text-blue-300 text-center mt-6 text-sm">
                     Ou{' '}
                     <button className="underline hover:text-white transition-colors">
                         sauter cette étape

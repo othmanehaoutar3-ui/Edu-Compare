@@ -150,7 +150,7 @@ export default function SchoolsPage() {
                             </button>
                             <Link
                                 href="/map"
-                                className="p-4 rounded-xl transition-all bg-white/10 text-purple-200 hover:bg-white/20"
+                                className="p-4 rounded-xl transition-all bg-white/10 text-blue-200 hover:bg-white/20"
                             >
                                 <Map className="w-5 h-5" />
                             </Link>
@@ -201,7 +201,7 @@ export default function SchoolsPage() {
 
                                     {/* Type Filter */}
                                     <div>
-                                        <label className="block text-purple-200 text-sm font-semibold mb-2">Type</label>
+                                        <label className="block text-blue-200 text-sm font-semibold mb-2">Type</label>
                                         <select
                                             value={selectedType || ''}
                                             onChange={(e) => setSelectedType(e.target.value || null)}
@@ -209,7 +209,7 @@ export default function SchoolsPage() {
                                         >
                                             <option value="">Tous</option>
                                             {types.map((type) => (
-                                                <option key={type} value={type} className="bg-purple-900">
+                                                <option key={type} value={type} className="bg-blue-900">
                                                     {type}
                                                 </option>
                                             ))}
@@ -218,17 +218,17 @@ export default function SchoolsPage() {
 
                                     {/* Sector Filter */}
                                     <div>
-                                        <label className="block text-purple-200 text-sm font-semibold mb-2">Secteur</label>
+                                        <label className="block text-blue-200 text-sm font-semibold mb-2">Secteur</label>
                                         <select
                                             value={selectedSector || ''}
                                             onChange={(e) => setSelectedSector(e.target.value || null)}
                                             className="w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-xl focus:border-cyan-400 transition-all"
                                         >
                                             <option value="">Tous</option>
-                                            <option value="Public" className="bg-purple-900">
+                                            <option value="Public" className="bg-blue-900">
                                                 Public
                                             </option>
-                                            <option value="Privé" className="bg-purple-900">
+                                            <option value="Privé" className="bg-blue-900">
                                                 Privé
                                             </option>
                                         </select>
@@ -236,22 +236,22 @@ export default function SchoolsPage() {
 
                                     {/* Sort By */}
                                     <div>
-                                        <label className="block text-purple-200 text-sm font-semibold mb-2">Trier par</label>
+                                        <label className="block text-blue-200 text-sm font-semibold mb-2">Trier par</label>
                                         <select
                                             value={sortBy}
                                             onChange={(e) => setSortBy(e.target.value as SortOption)}
                                             className="w-full bg-white/10 border border-white/20 text-white px-4 py-3 rounded-xl focus:border-cyan-400 transition-all"
                                         >
-                                            <option value="name" className="bg-purple-900">
+                                            <option value="name" className="bg-blue-900">
                                                 Nom
                                             </option>
-                                            <option value="price" className="bg-purple-900">
+                                            <option value="price" className="bg-blue-900">
                                                 Prix
                                             </option>
-                                            <option value="rate" className="bg-purple-900">
+                                            <option value="rate" className="bg-blue-900">
                                                 Satisfaction
                                             </option>
-                                            <option value="city" className="bg-purple-900">
+                                            <option value="city" className="bg-blue-900">
                                                 Ville
                                             </option>
                                         </select>
@@ -365,7 +365,7 @@ export default function SchoolsPage() {
 
                                         {/* CTA */}
                                         <div className="mt-6 pt-4 border-t border-white/10">
-                                            <div className="text-purple-300 group-hover:text-white transition-colors text-sm font-semibold flex items-center justify-between">
+                                            <div className="text-blue-300 group-hover:text-white transition-colors text-sm font-semibold flex items-center justify-between">
                                                 <span>Voir les détails</span>
                                                 <span className="group-hover:translate-x-2 transition-transform">→</span>
                                             </div>
@@ -388,10 +388,10 @@ export default function SchoolsPage() {
                         >
                             <div className="text-6xl mb-6">🔍</div>
                             <h3 className="text-3xl font-bold text-white mb-4">Aucune école trouvée</h3>
-                            <p className="text-purple-200 mb-8">Essayez de modifier vos filtres</p>
+                            <p className="text-blue-200 mb-8">Essayez de modifier vos filtres</p>
                             <button
                                 onClick={clearFilters}
-                                className="bg-purple-500 hover:bg-purple-600 text-white px-8 py-4 rounded-xl font-semibold transition-all"
+                                className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold transition-all"
                             >
                                 Réinitialiser les filtres
                             </button>

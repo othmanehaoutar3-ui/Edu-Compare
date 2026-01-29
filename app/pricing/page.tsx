@@ -40,7 +40,7 @@ const PLANS = [
         price: 9.99,
         period: '/mois',
         icon: Sparkles,
-        color: 'from-purple-500 to-pink-500',
+        color: 'from-blue-600 to-blue-700',
         popular: true,
         subtitle: 'Toutes les fonctionnalités IA',
         features: [
@@ -61,7 +61,7 @@ const PLANS = [
         price: 79.99,
         period: '/an',
         icon: Crown,
-        color: 'from-yellow-400 to-yellow-600',
+        color: 'from-amber-400 to-amber-600',
         badge: '-33%',
         subtitle: 'Le meilleur rapport qualité-prix',
         features: [
@@ -181,13 +181,13 @@ export default function PricingPage() {
                         return (
                             <div
                                 key={plan.id}
-                                className={`relative bg-white/10 backdrop-blur-md border ${plan.popular ? 'border-purple-400 border-2' : 'border-white/20'
+                                className={`relative bg-white/10 backdrop-blur-md border ${plan.popular ? 'border-blue-400 border-2' : 'border-white/20'
                                     } rounded-3xl p-8 ${plan.popular ? 'transform scale-105' : ''} flex flex-col h-full`}
                             >
                                 {/* Popular Badge */}
                                 {plan.popular && (
                                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                                        <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-1 rounded-full text-sm font-bold">
+                                        <span className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-1 rounded-full text-sm font-bold">
                                             Le plus populaire
                                         </span>
                                     </div>
@@ -223,19 +223,19 @@ export default function PricingPage() {
                                 {/* Price */}
                                 <div className="mb-6">
                                     <span className="text-5xl font-bold text-white">{plan.price}€</span>
-                                    <span className="text-purple-200">{plan.period}</span>
+                                    <span className="text-blue-200">{plan.period}</span>
                                 </div>
 
                                 {/* Features */}
                                 <ul className="space-y-3 mb-8 flex-grow">
                                     {plan.features.map((feature, i) => (
-                                        <li key={i} className="flex items-start gap-3 text-purple-200">
+                                        <li key={i} className="flex items-start gap-3 text-blue-200">
                                             <Check className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
                                     {plan.limitations?.map((limitation, i) => (
-                                        <li key={i} className="flex items-start gap-3 text-purple-300 opacity-50 line-through">
+                                        <li key={i} className="flex items-start gap-3 text-blue-300 opacity-50 line-through">
                                             <span className="w-5 h-5 flex-shrink-0">✗</span>
                                             <span>{limitation}</span>
                                         </li>
@@ -247,7 +247,7 @@ export default function PricingPage() {
                                     onClick={() => handleSubscribe(plan.id, plan.priceId)}
                                     disabled={processingPlan === plan.id}
                                     className={`w-full py-4 rounded-xl font-bold transition-all mt-auto flex items-center justify-center gap-2 ${plan.popular
-                                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+                                        ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-purple-600 hover:to-pink-600'
                                         : 'bg-white/20 text-white hover:bg-white/30'
                                         } ${processingPlan === plan.id ? 'opacity-70 cursor-not-allowed' : ''}`}
                                 >
@@ -287,7 +287,7 @@ export default function PricingPage() {
                         ].map((faq, i) => (
                             <div key={i} className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
                                 <h3 className="text-xl font-bold text-white mb-3">{faq.q}</h3>
-                                <p className="text-purple-200">{faq.a}</p>
+                                <p className="text-blue-200">{faq.a}</p>
                             </div>
                         ))}
                     </div>

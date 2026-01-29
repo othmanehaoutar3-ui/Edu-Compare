@@ -171,7 +171,7 @@ export default function StatisticsPage() {
                             </p>
                             <Link
                                 href="/pricing"
-                                className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
+                                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
                             >
                                 Passer Premium
                             </Link>
@@ -192,9 +192,9 @@ export default function StatisticsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center mb-12"
                     >
-                        <div className="inline-flex items-center gap-3 bg-purple-500/20 border border-purple-400/30 px-6 py-3 rounded-full mb-6">
-                            <BarChart3 className="w-6 h-6 text-purple-300" />
-                            <span className="text-purple-200 font-semibold">Statistiques Avancées</span>
+                        <div className="inline-flex items-center gap-3 bg-blue-500/20 border border-blue-400/30 px-6 py-3 rounded-full mb-6">
+                            <BarChart3 className="w-6 h-6 text-blue-300" />
+                            <span className="text-blue-200 font-semibold">Statistiques Avancées</span>
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
                             Votre Tableau de Bord
@@ -212,7 +212,7 @@ export default function StatisticsPage() {
                             transition={{ delay: 0.1 }}
                             className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6"
                         >
-                            <Heart className="w-10 h-10 text-pink-400 mb-3" />
+                            <Heart className="w-10 h-10 text-amber-400 mb-3" />
                             <div className="text-3xl font-bold text-white">{stats?.totalFavorites || 0}</div>
                             <div className="text-white/60">Favoris</div>
                         </motion.div>
@@ -243,9 +243,9 @@ export default function StatisticsPage() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
-                            className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-purple-400/30 rounded-2xl p-6"
+                            className="bg-gradient-to-br from-blue-500/20 to-amber-500/20 backdrop-blur-md border border-blue-400/30 rounded-2xl p-6"
                         >
-                            <TrendingUp className="w-10 h-10 text-purple-400 mb-3" />
+                            <TrendingUp className="w-10 h-10 text-blue-400 mb-3" />
                             <div className="text-3xl font-bold text-white">{stats?.avgChance || 0}%</div>
                             <div className="text-white/60">Chance moyenne</div>
                         </motion.div>
@@ -289,7 +289,7 @@ export default function StatisticsPage() {
                                 <div className="text-center py-8">
                                     <Target className="w-12 h-12 text-white/30 mx-auto mb-3" />
                                     <p className="text-white/60">Utilisez le Calculator IA pour voir vos meilleures chances</p>
-                                    <Link href="/calculator" className="inline-block mt-4 text-purple-300 hover:text-purple-200">
+                                    <Link href="/calculator" className="inline-block mt-4 text-blue-300 hover:text-blue-200">
                                         Calculer mes chances →
                                     </Link>
                                 </div>
@@ -304,7 +304,7 @@ export default function StatisticsPage() {
                             className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6"
                         >
                             <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                <Sparkles className="w-6 h-6 text-blue-400" />
                                 Activité Récente
                             </h3>
 
@@ -363,8 +363,8 @@ export default function StatisticsPage() {
                             <p className="text-white/60 text-sm">Créez vos lettres</p>
                         </Link>
 
-                        <Link href="/applications" className="bg-purple-500/20 border border-purple-400/30 rounded-2xl p-6 hover:bg-purple-500/30 transition-all group">
-                            <Target className="w-8 h-8 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
+                        <Link href="/applications" className="bg-blue-500/20 border border-blue-400/30 rounded-2xl p-6 hover:bg-blue-500/30 transition-all group">
+                            <Target className="w-8 h-8 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
                             <h4 className="text-white font-bold">Suivi Candidatures</h4>
                             <p className="text-white/60 text-sm">Gérez vos candidatures</p>
                         </Link>

@@ -2,17 +2,18 @@
 
 import React, { createContext, useContext, ReactNode } from 'react'
 
-// Single premium theme - modern purple gradient
-export const PREMIUM_THEME = {
-    name: 'premium',
-    displayName: 'Premium',
-    primary: '#8b5cf6', // violet-500
-    secondary: '#a855f7', // purple-500
-    accent: '#c084fc', // purple-400
-    gradient: 'from-slate-950 via-purple-950 to-indigo-950',
+// Academic theme - Professional school colors
+export const ACADEMIC_THEME = {
+    name: 'academic',
+    displayName: 'Académique',
+    primary: '#1e40af', // blue-800 - Bleu académique profond
+    secondary: '#3b82f6', // blue-500 - Bleu royal
+    accent: '#60a5fa', // blue-400 - Bleu ciel
+    gold: '#f59e0b', // amber-500 - Or académique
+    gradient: 'from-slate-950 via-blue-950 to-indigo-950',
 }
 
-export type Theme = typeof PREMIUM_THEME
+export type Theme = typeof ACADEMIC_THEME
 
 type ThemeContextType = {
     currentTheme: Theme
@@ -22,7 +23,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
     const value: ThemeContextType = {
-        currentTheme: PREMIUM_THEME,
+        currentTheme: ACADEMIC_THEME,
     }
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

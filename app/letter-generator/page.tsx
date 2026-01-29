@@ -114,7 +114,7 @@ export default function LetterGeneratorPage() {
                             Anti-Parcoursup
                         </Link>
                         {isPremium && (
-                            <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+                            <span className="bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
                                 <Sparkles className="w-4 h-4" />
                                 Premium
                             </span>
@@ -128,14 +128,14 @@ export default function LetterGeneratorPage() {
                 <div className="max-w-6xl mx-auto">
                     {/* Title */}
                     <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-3 bg-purple-500/20 border border-purple-400/30 px-6 py-3 rounded-full mb-6">
-                            <Wand2 className="w-6 h-6 text-purple-300" />
-                            <span className="text-purple-200 font-semibold">IA Letter Generator</span>
+                        <div className="inline-flex items-center gap-3 bg-blue-500/20 border border-blue-400/30 px-6 py-3 rounded-full mb-6">
+                            <Wand2 className="w-6 h-6 text-blue-300" />
+                            <span className="text-blue-200 font-semibold">IA Letter Generator</span>
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
                             Générez votre lettre de motivation
                         </h1>
-                        <p className="text-purple-200 text-lg">
+                        <p className="text-blue-200 text-lg">
                             Lettre personnalisée et professionnelle en 30 secondes
                         </p>
                     </div>
@@ -147,7 +147,7 @@ export default function LetterGeneratorPage() {
 
                             <div className="space-y-6">
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         École / Formation
                                     </label>
                                     <input
@@ -155,13 +155,13 @@ export default function LetterGeneratorPage() {
                                         value={schoolName}
                                         onChange={(e) => setSchoolName(e.target.value)}
                                         placeholder="Ex: HEC Paris - Programme Grande École"
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Domaine d'études
                                     </label>
                                     <input
@@ -169,13 +169,13 @@ export default function LetterGeneratorPage() {
                                         value={program}
                                         onChange={(e) => setProgram(e.target.value)}
                                         placeholder="Ex: Management, Finance, Marketing"
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Pourquoi cette école ?
                                     </label>
                                     <textarea
@@ -183,13 +183,13 @@ export default function LetterGeneratorPage() {
                                         onChange={(e) => setMotivation(e.target.value)}
                                         placeholder="Expliquez ce qui vous attire dans cette école..."
                                         rows={3}
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all resize-none"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all resize-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Vos points forts
                                     </label>
                                     <textarea
@@ -197,13 +197,13 @@ export default function LetterGeneratorPage() {
                                         onChange={(e) => setStrengths(e.target.value)}
                                         placeholder="Compétences, qualités, réussites..."
                                         rows={3}
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all resize-none"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all resize-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Expérience pertinente
                                     </label>
                                     <textarea
@@ -211,8 +211,8 @@ export default function LetterGeneratorPage() {
                                         onChange={(e) => setExperience(e.target.value)}
                                         placeholder="Stages, projets, associations..."
                                         rows={3}
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all resize-none"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all resize-none"
                                     />
                                 </div>
 
@@ -220,7 +220,7 @@ export default function LetterGeneratorPage() {
                                     <button
                                         onClick={generateLetter}
                                         disabled={generating || !schoolName || !motivation}
-                                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-xl 
+                                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl 
                       font-bold hover:from-purple-600 hover:to-pink-600 transition-all 
                       disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                     >
@@ -236,7 +236,7 @@ export default function LetterGeneratorPage() {
                                 ) : (
                                     <Link
                                         href="/pricing"
-                                        className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 py-4 rounded-xl 
+                                        className="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 py-4 rounded-xl 
                       font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all 
                       flex items-center justify-center gap-2"
                                     >
@@ -271,24 +271,24 @@ export default function LetterGeneratorPage() {
                                     </div>
 
                                     <div className="bg-white/5 border border-white/10 rounded-xl p-6 max-h-[600px] overflow-y-auto">
-                                        <p className="text-purple-100 whitespace-pre-wrap leading-relaxed">
+                                        <p className="text-blue-100 whitespace-pre-wrap leading-relaxed">
                                             {letter}
                                         </p>
                                     </div>
 
-                                    <div className="bg-purple-500/20 border border-purple-400/30 rounded-xl p-4">
-                                        <p className="text-purple-200 text-sm">
+                                    <div className="bg-blue-500/20 border border-blue-400/30 rounded-xl p-4">
+                                        <p className="text-blue-200 text-sm">
                                             💡 <strong>Conseil :</strong> Personnalisez davantage cette lettre avec vos propres mots et anecdotes !
                                         </p>
                                     </div>
                                 </div>
                             ) : (
                                 <div className="flex flex-col items-center justify-center h-full py-12">
-                                    <Wand2 className="w-24 h-24 text-purple-300 mb-6 opacity-50" />
+                                    <Wand2 className="w-24 h-24 text-blue-300 mb-6 opacity-50" />
                                     <h3 className="text-2xl font-bold text-white mb-3">
                                         Créez votre lettre magique
                                     </h3>
-                                    <p className="text-purple-200 text-center max-w-md">
+                                    <p className="text-blue-200 text-center max-w-md">
                                         Remplissez les informations à gauche et cliquez sur "Générer" pour obtenir votre lettre personnalisée
                                     </p>
                                 </div>

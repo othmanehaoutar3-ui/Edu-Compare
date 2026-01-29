@@ -106,6 +106,17 @@ export async function PUT(request: Request) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
+        // Check premium status
+        const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('subscription_status')
+            .eq('id', user.id)
+            .single()
+
+        if (profile?.subscription_status !== 'premium') {
+            return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+        }
+
         const { id, status, notes, deadline } = await request.json()
 
         if (!id) {
@@ -150,6 +161,17 @@ export async function DELETE(request: Request) {
 
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+        }
+
+        // Check premium status
+        const { data: profile } = await supabase
+            .from('user_profiles')
+            .select('subscription_status')
+            .eq('id', user.id)
+            .single()
+
+        if (profile?.subscription_status !== 'premium') {
+            return NextResponse.json({ error: 'Premium required' }, { status: 403 })
         }
 
         const { searchParams } = new URL(request.url)

@@ -138,7 +138,7 @@ export default function RecommendationsPage() {
                             </p>
                             <Link
                                 href="/pricing"
-                                className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
+                                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
                             >
                                 Passer Premium
                             </Link>
@@ -159,9 +159,9 @@ export default function RecommendationsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center mb-12"
                     >
-                        <div className="inline-flex items-center gap-3 bg-purple-500/20 border border-purple-400/30 px-6 py-3 rounded-full mb-6">
-                            <Target className="w-6 h-6 text-purple-300" />
-                            <span className="text-purple-200 font-semibold">Recommandations IA</span>
+                        <div className="inline-flex items-center gap-3 bg-blue-500/20 border border-blue-400/30 px-6 py-3 rounded-full mb-6">
+                            <Target className="w-6 h-6 text-blue-300" />
+                            <span className="text-blue-200 font-semibold">Recommandations IA</span>
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
                             Écoles Recommandées
@@ -193,7 +193,7 @@ export default function RecommendationsPage() {
                             className="mb-12"
                         >
                             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                                <Sparkles className="w-6 h-6 text-purple-400" />
+                                <Sparkles className="w-6 h-6 text-blue-400" />
                                 Analyse IA de votre profil
                             </h2>
 
@@ -207,7 +207,7 @@ export default function RecommendationsPage() {
                                         className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6"
                                     >
                                         <div className="flex items-start gap-3 mb-3">
-                                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-bold">
                                                 {index + 1}
                                             </div>
                                             <div>
@@ -238,13 +238,13 @@ export default function RecommendationsPage() {
                         transition={{ delay: 0.3 }}
                     >
                         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                            <GraduationCap className="w-6 h-6 text-purple-400" />
+                            <GraduationCap className="w-6 h-6 text-blue-400" />
                             Écoles correspondantes
                         </h2>
 
                         {generating ? (
                             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-12 text-center">
-                                <Loader2 className="w-12 h-12 text-purple-400 mx-auto mb-4 animate-spin" />
+                                <Loader2 className="w-12 h-12 text-blue-400 mx-auto mb-4 animate-spin" />
                                 <p className="text-white/60">Génération des recommandations...</p>
                             </div>
                         ) : (
@@ -257,15 +257,15 @@ export default function RecommendationsPage() {
                                         transition={{ delay: 0.1 + index * 0.05 }}
                                     >
                                         <Link href={`/schools/${school.id}`}>
-                                            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 hover:border-purple-400/50 transition-all group cursor-pointer h-full">
+                                            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 hover:border-blue-400/50 transition-all group cursor-pointer h-full">
                                                 <div className="mb-4">
                                                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${school.sector === 'Public'
                                                             ? 'bg-green-500/20 text-green-300 border border-green-400/30'
-                                                            : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
+                                                            : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
                                                         }`}>
                                                         {school.sector}
                                                     </span>
-                                                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
+                                                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
                                                         {school.name}
                                                     </h3>
                                                     <div className="flex items-center gap-2 text-white/60 text-sm">
@@ -292,7 +292,7 @@ export default function RecommendationsPage() {
                                                 </div>
 
                                                 <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                                                    <span className="text-purple-300 text-sm font-medium group-hover:text-purple-200 flex items-center gap-1">
+                                                    <span className="text-blue-300 text-sm font-medium group-hover:text-blue-200 flex items-center gap-1">
                                                         Voir plus
                                                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                                     </span>
@@ -314,7 +314,7 @@ export default function RecommendationsPage() {
                     >
                         <Link
                             href="/schools"
-                            className="inline-flex items-center gap-2 border-2 border-purple-400/50 text-white px-8 py-4 rounded-xl hover:bg-purple-500/10 hover:border-purple-400 transition-all"
+                            className="inline-flex items-center gap-2 border-2 border-blue-400/50 text-white px-8 py-4 rounded-xl hover:bg-blue-500/10 hover:border-blue-400 transition-all"
                         >
                             Explorer toutes les écoles
                             <ArrowRight className="w-5 h-5" />

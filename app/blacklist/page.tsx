@@ -3,7 +3,6 @@
 import { AlertTriangle, XCircle, DollarSign, FileX, Shield, ArrowLeft, Search, Building2, GraduationCap } from 'lucide-react'
 import Link from 'next/link'
 import { useTheme } from '@/context/ThemeContext'
-import ThemeSwitcher from '@/components/ThemeSwitcher'
 import { useState } from 'react'
 
 type ScamSchool = {
@@ -491,11 +490,6 @@ export default function BlacklistPage() {
 
     return (
         <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient}`}>
-            {/* Theme Switcher */}
-            <div className="fixed top-6 right-6 z-50">
-                <ThemeSwitcher />
-            </div>
-
             {/* Header */}
             <div className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-40">
                 <div className="container mx-auto px-4 py-4">

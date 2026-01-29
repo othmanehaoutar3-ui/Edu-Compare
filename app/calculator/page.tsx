@@ -126,14 +126,14 @@ export default function CalculatorPage() {
                 <div className="max-w-4xl mx-auto">
                     {/* Title */}
                     <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-3 bg-purple-500/20 border border-purple-400/30 px-6 py-3 rounded-full mb-6">
-                            <BarChart3 className="w-6 h-6 text-purple-300" />
-                            <span className="text-purple-200 font-semibold">Calculator Premium</span>
+                        <div className="inline-flex items-center gap-3 bg-blue-500/20 border border-blue-400/30 px-6 py-3 rounded-full mb-6">
+                            <BarChart3 className="w-6 h-6 text-blue-300" />
+                            <span className="text-blue-200 font-semibold">Calculator Premium</span>
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
                             Calculez vos chances d'admission
                         </h1>
-                        <p className="text-purple-200 text-lg">
+                        <p className="text-blue-200 text-lg">
                             Algorithme IA basé sur 10 000+ admissions réelles
                         </p>
                     </div>
@@ -146,7 +146,7 @@ export default function CalculatorPage() {
                             <div className="space-y-6">
                                 {/* School Name */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         École visée
                                     </label>
                                     <input
@@ -154,21 +154,21 @@ export default function CalculatorPage() {
                                         value={schoolName}
                                         onChange={(e) => setSchoolName(e.target.value)}
                                         placeholder="Ex: HEC Paris"
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     />
                                 </div>
 
                                 {/* Current Grade */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Classe actuelle
                                     </label>
                                     <select
                                         value={currentGrade}
                                         onChange={(e) => setCurrentGrade(Number(e.target.value))}
                                         className="w-full bg-white/10 border border-white/20 text-white 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     >
                                         <option value={12}>Terminale</option>
                                         <option value={11}>Première</option>
@@ -178,7 +178,7 @@ export default function CalculatorPage() {
 
                                 {/* Average Grade */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Moyenne générale : {average}/20
                                     </label>
                                     <input
@@ -190,7 +190,7 @@ export default function CalculatorPage() {
                                         onChange={(e) => setAverage(Number(e.target.value))}
                                         className="w-full"
                                     />
-                                    <div className="flex justify-between text-purple-300 text-xs mt-1">
+                                    <div className="flex justify-between text-blue-300 text-xs mt-1">
                                         <span>8</span>
                                         <span>14</span>
                                         <span>20</span>
@@ -199,14 +199,14 @@ export default function CalculatorPage() {
 
                                 {/* Bac Type */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Type de Bac
                                     </label>
                                     <select
                                         value={bacType}
                                         onChange={(e) => setBacType(e.target.value)}
                                         className="w-full bg-white/10 border border-white/20 text-white 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     >
                                         <option value="Général">Général</option>
                                         <option value="Technologique">Technologique</option>
@@ -216,7 +216,7 @@ export default function CalculatorPage() {
 
                                 {/* Field of Study */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Spécialités
                                     </label>
                                     <input
@@ -224,14 +224,14 @@ export default function CalculatorPage() {
                                         value={fieldOfStudy}
                                         onChange={(e) => setFieldOfStudy(e.target.value)}
                                         placeholder="Ex: Maths, Physique"
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                     />
                                 </div>
 
                                 {/* Extracurricular */}
                                 <div>
-                                    <label className="block text-purple-200 text-sm font-semibold mb-2">
+                                    <label className="block text-blue-200 text-sm font-semibold mb-2">
                                         Activités extra-scolaires
                                     </label>
                                     <textarea
@@ -239,8 +239,8 @@ export default function CalculatorPage() {
                                         onChange={(e) => setExtracurricular(e.target.value)}
                                         placeholder="Sports, associations, bénévolat..."
                                         rows={3}
-                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                      px-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all resize-none"
+                                        className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                      px-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all resize-none"
                                     />
                                 </div>
 
@@ -249,7 +249,7 @@ export default function CalculatorPage() {
                                     <button
                                         onClick={calculateProbability}
                                         disabled={calculating || !schoolName}
-                                        className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 rounded-xl 
+                                        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 rounded-xl 
                       font-bold hover:from-purple-600 hover:to-pink-600 transition-all 
                       disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                                     >
@@ -265,7 +265,7 @@ export default function CalculatorPage() {
                                 ) : (
                                     <Link
                                         href="/pricing"
-                                        className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 py-4 rounded-xl 
+                                        className="w-full bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 py-4 rounded-xl 
                       font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all 
                       flex items-center justify-center gap-2"
                                     >
@@ -306,10 +306,10 @@ export default function CalculatorPage() {
                                     {/* AI Insights */}
                                     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6">
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                            <Sparkles className="w-6 h-6 text-purple-300" />
+                                            <Sparkles className="w-6 h-6 text-blue-300" />
                                             Analyse IA détaillée
                                         </h3>
-                                        <p className="text-purple-100 leading-relaxed">
+                                        <p className="text-blue-100 leading-relaxed">
                                             {result.insights}
                                         </p>
                                     </div>
@@ -323,7 +323,7 @@ export default function CalculatorPage() {
                                             </h3>
                                             <ul className="space-y-3">
                                                 {result.strengths.map((strength, i) => (
-                                                    <li key={i} className="text-purple-200 flex items-start gap-3">
+                                                    <li key={i} className="text-blue-200 flex items-start gap-3">
                                                         <span className="text-green-400">✓</span>
                                                         <span>{strength}</span>
                                                     </li>
@@ -341,7 +341,7 @@ export default function CalculatorPage() {
                                             </h3>
                                             <ul className="space-y-3">
                                                 {result.weaknesses.map((weakness, i) => (
-                                                    <li key={i} className="text-purple-200 flex items-start gap-3">
+                                                    <li key={i} className="text-blue-200 flex items-start gap-3">
                                                         <span className="text-yellow-400">→</span>
                                                         <span>{weakness}</span>
                                                     </li>
@@ -353,12 +353,12 @@ export default function CalculatorPage() {
                                     {/* Recommendations */}
                                     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-6">
                                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                                            <GraduationCap className="w-6 h-6 text-purple-300" />
+                                            <GraduationCap className="w-6 h-6 text-blue-300" />
                                             Recommandations
                                         </h3>
                                         <ul className="space-y-3">
                                             {result.recommendations.map((rec, i) => (
-                                                <li key={i} className="text-purple-200 flex items-start gap-3">
+                                                <li key={i} className="text-blue-200 flex items-start gap-3">
                                                     <span className="text-green-400">✓</span>
                                                     <span>{rec}</span>
                                                 </li>
@@ -368,11 +368,11 @@ export default function CalculatorPage() {
                                 </div>
                             ) : (
                                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-12 text-center">
-                                    <BarChart3 className="w-24 h-24 text-purple-300 mx-auto mb-6 opacity-50" />
+                                    <BarChart3 className="w-24 h-24 text-blue-300 mx-auto mb-6 opacity-50" />
                                     <h3 className="text-2xl font-bold text-white mb-3">
                                         Remplissez le formulaire
                                     </h3>
-                                    <p className="text-purple-200">
+                                    <p className="text-blue-200">
                                         Complétez vos informations pour découvrir vos chances d'admission
                                     </p>
                                 </div>

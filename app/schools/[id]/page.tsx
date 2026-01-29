@@ -6,14 +6,17 @@ import Link from 'next/link'
 import { ArrowLeft, MapPin, Euro, TrendingUp, Star, Heart, BarChart3, Loader2 } from 'lucide-react'
 import { getSchoolById, type School } from '@/lib/schools'
 import { createClient } from '@/lib/supabase/client'
+import { useTheme } from '@/context/ThemeContext'
 
 export default function SchoolDetailPage() {
     const params = useParams()
     const router = useRouter()
+    const { currentTheme } = useTheme()
     const [school, setSchool] = useState<School | null>(null)
     const [isFavorite, setIsFavorite] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [user, setUser] = useState<any>(null)
+    const [isPremium, setIsPremium] = useState(false)
 
     useEffect(() => {
         const id = parseInt(params.id as string)
@@ -27,6 +30,16 @@ export default function SchoolDetailPage() {
             setUser(user)
 
             if (user && foundSchool) {
+                // Check premium status
+                const { data: profile } = await supabase
+                    .from('user_profiles')
+                    .select('subscription_status')
+                    .eq('id', user.id)
+                    .single()
+
+                setIsPremium(profile?.subscription_status === 'premium')
+
+                // Check favorites
                 const { data } = await supabase
                     .from('favorites')
                     .select('id')
@@ -54,7 +67,7 @@ export default function SchoolDetailPage() {
             if (isFavorite) {
                 // Remove from favorites
                 const response = await fetch('/api/favorites/remove', {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ schoolId: school.id }),
                 })
@@ -91,10 +104,10 @@ export default function SchoolDetailPage() {
 
     if (!school) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 flex items-center justify-center">
+            <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient} flex items-center justify-center`}>
                 <div className="text-white text-center">
                     <h1 className="text-2xl font-bold mb-4">École non trouvée</h1>
-                    <Link href="/schools" className="text-purple-300 hover:text-white underline">
+                    <Link href="/schools" className="text-blue-300 hover:text-white underline">
                         Retour à la recherche
                     </Link>
                 </div>
@@ -103,13 +116,13 @@ export default function SchoolDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
+        <div className={`min-h-screen bg-gradient-to-br ${currentTheme.gradient}`}>
             {/* Header */}
             <div className="bg-white/10 backdrop-blur-md border-b border-white/20 sticky top-0 z-10">
                 <div className="container mx-auto px-4 py-4">
                     <Link
                         href="/schools"
-                        className="inline-flex items-center gap-2 text-purple-200 hover:text-white transition-colors"
+                        className="inline-flex items-center gap-2 text-blue-200 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
                         Retour à la recherche
@@ -133,7 +146,7 @@ export default function SchoolDetailPage() {
                                         {school.sector}
                                     </span>
                                     <h1 className="text-4xl font-bold text-white mb-2">{school.name}</h1>
-                                    <div className="flex items-center gap-4 text-purple-200">
+                                    <div className="flex items-center gap-4 text-blue-200">
                                         <div className="flex items-center gap-2">
                                             <MapPin className="w-4 h-4" />
                                             <span>{school.city}</span>
@@ -146,8 +159,8 @@ export default function SchoolDetailPage() {
                                     onClick={handleToggleFavorite}
                                     disabled={isLoading}
                                     className={`p-3 rounded-full transition-all ${isFavorite
-                                            ? 'bg-pink-500 text-white'
-                                            : 'bg-pink-500/20 border border-pink-400/30 text-pink-300 hover:bg-pink-500/30'
+                                            ? 'bg-amber-500 text-white'
+                                            : 'bg-amber-500/20 border border-amber-400/30 text-amber-300 hover:bg-amber-500/30'
                                         }`}
                                 >
                                     {isLoading ? (
@@ -158,7 +171,7 @@ export default function SchoolDetailPage() {
                                 </button>
                             </div>
 
-                            <p className="text-purple-200 leading-relaxed">
+                            <p className="text-blue-200 leading-relaxed">
                                 {school.name} est {school.sector === 'Public' ? 'un établissement public' : 'une école privée'} situé à {school.city}.
                                 Formation de type {school.type} reconnue pour la qualité de son enseignement.
                             </p>
@@ -167,32 +180,32 @@ export default function SchoolDetailPage() {
                         {/* Stats Grid */}
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                                <Euro className="w-8 h-8 text-purple-300 mb-3" />
+                                <Euro className="w-8 h-8 text-blue-400 mb-3" />
                                 <div className="text-2xl font-bold text-white mb-1">
                                     {typeof school.price === 'number'
                                         ? (school.price === 0 ? 'Gratuit' : `${school.price.toLocaleString()}€`)
                                         : school.price}
                                 </div>
-                                <div className="text-purple-200 text-sm">Prix annuel</div>
+                                <div className="text-blue-200 text-sm">Prix annuel</div>
                             </div>
 
                             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                                <TrendingUp className="w-8 h-8 text-green-400 mb-3" />
+                                <TrendingUp className="w-8 h-8 text-emerald-400 mb-3" />
                                 <div className="text-2xl font-bold text-white mb-1">{school.rate}%</div>
-                                <div className="text-purple-200 text-sm">Satisfaction</div>
+                                <div className="text-blue-200 text-sm">Satisfaction</div>
                             </div>
 
                             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                                <Star className="w-8 h-8 text-yellow-400 mb-3" />
+                                <Star className="w-8 h-8 text-amber-400 mb-3" />
                                 <div className="text-2xl font-bold text-white mb-1">{school.salary || 'N/C'}</div>
-                                <div className="text-purple-200 text-sm">Salaire sortie</div>
+                                <div className="text-blue-200 text-sm">Salaire sortie</div>
                             </div>
 
                             {school.rank && (
                                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                                    <BarChart3 className="w-8 h-8 text-purple-300 mb-3" />
+                                    <BarChart3 className="w-8 h-8 text-blue-400 mb-3" />
                                     <div className="text-2xl font-bold text-white mb-1">#{school.rank}</div>
-                                    <div className="text-purple-200 text-sm">Classement</div>
+                                    <div className="text-blue-200 text-sm">Classement</div>
                                 </div>
                             )}
                         </div>
@@ -208,7 +221,7 @@ export default function SchoolDetailPage() {
                                         href={school.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="block w-full bg-white text-purple-900 py-3 rounded-xl font-semibold text-center hover:bg-purple-50 transition-all"
+                                        className="block w-full bg-white text-blue-900 py-3 rounded-xl font-semibold text-center hover:bg-blue-50 transition-all"
                                     >
                                         Site officiel
                                     </a>
@@ -216,7 +229,7 @@ export default function SchoolDetailPage() {
 
                                 <Link
                                     href={`/calculator?school=${encodeURIComponent(school.name)}`}
-                                    className="block w-full bg-purple-500/20 border border-purple-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-purple-500/30 transition-all"
+                                    className="block w-full bg-blue-500/20 border border-blue-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-500/30 transition-all"
                                 >
                                     Calculer mes chances
                                 </Link>
@@ -225,7 +238,7 @@ export default function SchoolDetailPage() {
                                     onClick={handleToggleFavorite}
                                     disabled={isLoading}
                                     className={`w-full py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${isFavorite
-                                            ? 'bg-pink-500 text-white hover:bg-pink-600'
+                                            ? 'bg-amber-500 text-white hover:bg-amber-600'
                                             : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
                                         }`}
                                 >
@@ -241,18 +254,44 @@ export default function SchoolDetailPage() {
                             </div>
                         </div>
 
-                        <div className="bg-purple-500/20 border border-purple-400/30 rounded-2xl p-6">
-                            <h3 className="text-lg font-bold text-white mb-2">Premium</h3>
-                            <p className="text-purple-200 text-sm mb-4">
-                                Débloquez toutes les statistiques et calculez vos chances réelles d'admission.
-                            </p>
-                            <Link
-                                href="/pricing"
-                                className="block w-full bg-white text-purple-900 py-3 rounded-xl font-semibold text-center hover:bg-purple-50 transition-all"
-                            >
-                                Passer Premium
-                            </Link>
-                        </div>
+{isPremium ? (
+                            <div className="bg-gradient-to-br from-blue-600/20 to-amber-600/20 border border-blue-400/30 rounded-2xl p-6">
+                                <h3 className="text-lg font-bold text-white mb-4">Actions Premium</h3>
+                                <div className="space-y-3">
+                                    <Link
+                                        href={`/statistics?school=${encodeURIComponent(school.name)}`}
+                                        className="block w-full bg-blue-500/20 border border-blue-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-500/30 transition-all"
+                                    >
+                                        📊 Statistiques détaillées
+                                    </Link>
+                                    <Link
+                                        href={`/letter-generator?school=${encodeURIComponent(school.name)}`}
+                                        className="block w-full bg-blue-500/20 border border-blue-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-500/30 transition-all"
+                                    >
+                                        ✍️ Générer une lettre
+                                    </Link>
+                                    <Link
+                                        href={`/applications?school=${encodeURIComponent(school.name)}`}
+                                        className="block w-full bg-blue-500/20 border border-blue-400/30 text-white py-3 rounded-xl font-semibold text-center hover:bg-blue-500/30 transition-all"
+                                    >
+                                        📝 Suivre ma candidature
+                                    </Link>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="bg-blue-500/20 border border-blue-400/30 rounded-2xl p-6">
+                                <h3 className="text-lg font-bold text-white mb-2">Premium</h3>
+                                <p className="text-blue-200 text-sm mb-4">
+                                    Débloquez toutes les statistiques et calculez vos chances réelles d'admission.
+                                </p>
+                                <Link
+                                    href="/pricing"
+                                    className="block w-full bg-white text-blue-900 py-3 rounded-xl font-semibold text-center hover:bg-blue-50 transition-all"
+                                >
+                                    Passer Premium
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ type Application = {
 const STATUS_CONFIG = {
     pending: { label: 'En attente', color: 'bg-gray-500', icon: Clock },
     sent: { label: 'Envoyé', color: 'bg-blue-500', icon: Send },
-    interview: { label: 'Entretien', color: 'bg-purple-500', icon: AlertCircle },
+    interview: { label: 'Entretien', color: 'bg-blue-500', icon: AlertCircle },
     accepted: { label: 'Accepté', color: 'bg-green-500', icon: CheckCircle },
     rejected: { label: 'Refusé', color: 'bg-red-500', icon: XCircle },
     waitlisted: { label: 'Liste d\'attente', color: 'bg-yellow-500', icon: Clock },
@@ -199,7 +199,7 @@ export default function ApplicationsPage() {
                             </p>
                             <Link
                                 href="/pricing"
-                                className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
+                                className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-8 py-4 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
                             >
                                 Passer Premium
                             </Link>
@@ -220,9 +220,9 @@ export default function ApplicationsPage() {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center mb-12"
                     >
-                        <div className="inline-flex items-center gap-3 bg-purple-500/20 border border-purple-400/30 px-6 py-3 rounded-full mb-6">
-                            <ClipboardList className="w-6 h-6 text-purple-300" />
-                            <span className="text-purple-200 font-semibold">Suivi de candidatures</span>
+                        <div className="inline-flex items-center gap-3 bg-blue-500/20 border border-blue-400/30 px-6 py-3 rounded-full mb-6">
+                            <ClipboardList className="w-6 h-6 text-blue-300" />
+                            <span className="text-blue-200 font-semibold">Suivi de candidatures</span>
                         </div>
                         <h1 className="text-5xl font-bold text-white mb-4">
                             Mes Candidatures
@@ -329,7 +329,7 @@ export default function ApplicationsPage() {
                             <button
                                 onClick={handleAddApplication}
                                 disabled={!selectedSchool || saving}
-                                className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 rounded-xl font-bold hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
                                 Ajouter

@@ -47,8 +47,8 @@ export default function FavoritesPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <div className="inline-flex items-center gap-3 bg-pink-500/20 border border-pink-400/30 px-6 py-3 rounded-full mb-6">
-                        <Heart className="w-6 h-6 text-pink-300 fill-current" />
+                    <div className="inline-flex items-center gap-3 bg-amber-500/20 border border-amber-400/30 px-6 py-3 rounded-full mb-6">
+                        <Heart className="w-6 h-6 text-amber-300 fill-current" />
                         <span className="text-pink-200 font-semibold">Mes Favoris</span>
                     </div>
                     <h1 className="text-6xl font-bold text-white mb-4">
@@ -104,7 +104,7 @@ export default function FavoritesPage() {
                                             <span
                                                 className={`inline-block px-3 py-1 rounded-full text-xs font-semibold mb-3 ${school.sector === 'Public'
                                                     ? 'bg-green-500/20 text-green-300 border border-green-400/30'
-                                                    : 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
+                                                    : 'bg-blue-500/20 text-blue-300 border border-blue-400/30'
                                                     }`}
                                             >
                                                 {school.sector}

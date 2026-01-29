@@ -69,7 +69,7 @@ export default function DashboardPage() {
                                 Tableau de bord
                             </h1>
                             {isPremium && (
-                                <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                                <span className="bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
                                     <Crown className="w-4 h-4" />
                                     Premium
                                 </span>
@@ -82,7 +82,7 @@ export default function DashboardPage() {
                     {!isPremium && (
                         <Link
                             href="/pricing"
-                            className="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-400 to-yellow-600 text-purple-900 px-6 py-3 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-amber-600 text-blue-900 px-6 py-3 rounded-xl font-bold hover:from-yellow-500 hover:to-yellow-700 transition-all"
                         >
                             <Sparkles className="w-5 h-5" />
                             Passer Premium
@@ -93,27 +93,27 @@ export default function DashboardPage() {
                 {/* Quick Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                        <Heart className="w-12 h-12 text-pink-400 mb-4" />
+                        <Heart className="w-12 h-12 text-amber-400 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-2">0</h3>
-                        <p className="text-purple-200">Écoles favorites</p>
+                        <p className="text-blue-200">Écoles favorites</p>
                     </div>
 
                     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-                        <GraduationCap className="w-12 h-12 text-purple-300 mb-4" />
+                        <GraduationCap className="w-12 h-12 text-blue-300 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-2">0</h3>
-                        <p className="text-purple-200">Formations suivies</p>
+                        <p className="text-blue-200">Formations suivies</p>
                     </div>
 
                     <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
                         <TrendingUp className="w-12 h-12 text-green-400 mb-4" />
                         <h3 className="text-3xl font-bold text-white mb-2">--</h3>
-                        <p className="text-purple-200">Chances moyennes</p>
+                        <p className="text-blue-200">Chances moyennes</p>
                     </div>
                 </div>
 
                 {/* Premium Features */}
                 {isPremium && (
-                    <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-md border border-purple-400/30 rounded-2xl p-8 mb-8">
+                    <div className="bg-gradient-to-r from-blue-500/20 to-amber-500/20 backdrop-blur-md border border-blue-400/30 rounded-2xl p-8 mb-8">
                         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
                             <Crown className="w-6 h-6 text-yellow-400" />
                             Fonctionnalités Premium
@@ -125,7 +125,7 @@ export default function DashboardPage() {
                             >
                                 <Calculator className="w-10 h-10 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
                                 <h3 className="font-semibold mb-1">Calculator IA</h3>
-                                <p className="text-purple-200 text-sm">Calculez vos chances</p>
+                                <p className="text-blue-200 text-sm">Calculez vos chances</p>
                             </Link>
 
                             <Link
@@ -134,16 +134,16 @@ export default function DashboardPage() {
                             >
                                 <FileText className="w-10 h-10 text-green-400 mb-3 group-hover:scale-110 transition-transform" />
                                 <h3 className="font-semibold mb-1">Générateur de Lettres</h3>
-                                <p className="text-purple-200 text-sm">Créez vos lettres IA</p>
+                                <p className="text-blue-200 text-sm">Créez vos lettres IA</p>
                             </Link>
 
                             <Link
                                 href="/statistics"
                                 className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all group"
                             >
-                                <BarChart3 className="w-10 h-10 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
+                                <BarChart3 className="w-10 h-10 text-blue-400 mb-3 group-hover:scale-110 transition-transform" />
                                 <h3 className="font-semibold mb-1">Statistiques</h3>
-                                <p className="text-purple-200 text-sm">Visualisez vos données</p>
+                                <p className="text-blue-200 text-sm">Visualisez vos données</p>
                             </Link>
 
                             <Link
@@ -152,16 +152,16 @@ export default function DashboardPage() {
                             >
                                 <ClipboardList className="w-10 h-10 text-orange-400 mb-3 group-hover:scale-110 transition-transform" />
                                 <h3 className="font-semibold mb-1">Suivi Candidatures</h3>
-                                <p className="text-purple-200 text-sm">Gérez vos candidatures</p>
+                                <p className="text-blue-200 text-sm">Gérez vos candidatures</p>
                             </Link>
 
                             <Link
                                 href="/recommendations"
                                 className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all group"
                             >
-                                <Target className="w-10 h-10 text-pink-400 mb-3 group-hover:scale-110 transition-transform" />
+                                <Target className="w-10 h-10 text-amber-400 mb-3 group-hover:scale-110 transition-transform" />
                                 <h3 className="font-semibold mb-1">Recommandations IA</h3>
-                                <p className="text-purple-200 text-sm">Écoles personnalisées</p>
+                                <p className="text-blue-200 text-sm">Écoles personnalisées</p>
                             </Link>
                         </div>
                     </div>
@@ -176,7 +176,7 @@ export default function DashboardPage() {
                             className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all"
                         >
                             <h3 className="font-semibold mb-2">Compléter mon profil</h3>
-                            <p className="text-purple-200 text-sm">5 minutes • Requis pour l'IA</p>
+                            <p className="text-blue-200 text-sm">5 minutes • Requis pour l'IA</p>
                         </Link>
 
                         <Link
@@ -184,7 +184,7 @@ export default function DashboardPage() {
                             className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all"
                         >
                             <h3 className="font-semibold mb-2">Explorer les écoles</h3>
-                            <p className="text-purple-200 text-sm">500+ formations disponibles</p>
+                            <p className="text-blue-200 text-sm">500+ formations disponibles</p>
                         </Link>
 
                         <Link
@@ -192,7 +192,7 @@ export default function DashboardPage() {
                             className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all"
                         >
                             <h3 className="font-semibold mb-2">Mes favoris</h3>
-                            <p className="text-purple-200 text-sm">{isPremium ? 'Illimité' : 'Max 5 écoles'}</p>
+                            <p className="text-blue-200 text-sm">{isPremium ? 'Illimité' : 'Max 5 écoles'}</p>
                         </Link>
 
                         <Link
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                             className="bg-white/10 border border-white/20 text-white p-6 rounded-xl hover:bg-white/20 transition-all"
                         >
                             <h3 className="font-semibold mb-2">Paramètres</h3>
-                            <p className="text-purple-200 text-sm">Gérer votre compte</p>
+                            <p className="text-blue-200 text-sm">Gérer votre compte</p>
                         </Link>
                     </div>
                 </div>

@@ -59,7 +59,7 @@ export default function LoginPage() {
                     <Link href="/" className="text-3xl font-bold text-white">
                         Anti-Parcoursup
                     </Link>
-                    <p className="text-purple-200 mt-2">Connectez-vous à votre compte</p>
+                    <p className="text-blue-200 mt-2">Connectez-vous à votre compte</p>
                 </div>
 
                 {/* Card */}
@@ -73,38 +73,38 @@ export default function LoginPage() {
                     <form onSubmit={handleLogin} className="space-y-6">
                         {/* Email */}
                         <div>
-                            <label className="block text-purple-200 text-sm font-semibold mb-2">
+                            <label className="block text-blue-200 text-sm font-semibold mb-2">
                                 Email
                             </label>
                             <div className="relative">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-300" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300" />
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="votre@email.com"
                                     required
-                                    className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                    pl-12 pr-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                    className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                    pl-12 pr-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                 />
                             </div>
                         </div>
 
                         {/* Password */}
                         <div>
-                            <label className="block text-purple-200 text-sm font-semibold mb-2">
+                            <label className="block text-blue-200 text-sm font-semibold mb-2">
                                 Mot de passe
                             </label>
                             <div className="relative">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-300" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300" />
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
                                     required
-                                    className="w-full bg-white/10 border border-white/20 text-white placeholder-purple-300 
-                    pl-12 pr-4 py-3 rounded-xl outline-none focus:border-purple-400 transition-all"
+                                    className="w-full bg-white/10 border border-white/20 text-white placeholder-blue-300 
+                    pl-12 pr-4 py-3 rounded-xl outline-none focus:border-blue-400 transition-all"
                                 />
                             </div>
                         </div>
@@ -113,7 +113,7 @@ export default function LoginPage() {
                         <div className="flex justify-end">
                             <Link
                                 href="/forgot-password"
-                                className="text-purple-300 text-sm hover:text-white transition-colors"
+                                className="text-blue-300 text-sm hover:text-white transition-colors"
                             >
                                 Mot de passe oublié ?
                             </Link>
@@ -123,12 +123,12 @@ export default function LoginPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full bg-white text-purple-900 py-4 rounded-xl font-semibold 
-                disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-50 
+                            className="w-full bg-white text-blue-900 py-4 rounded-xl font-semibold 
+                disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-50 
                 transition-all flex items-center justify-center gap-2 group"
                         >
                             {loading ? (
-                                <div className="w-5 h-5 border-2 border-purple-900/20 border-t-purple-900 rounded-full animate-spin" />
+                                <div className="w-5 h-5 border-2 border-blue-900/20 border-t-blue-900 rounded-full animate-spin" />
                             ) : (
                                 <>
                                     Se connecter
@@ -144,7 +144,7 @@ export default function LoginPage() {
                             <div className="w-full border-t border-white/20"></div>
                         </div>
                         <div className="relative flex justify-center text-sm">
-                            <span className="bg-purple-900/50 px-4 text-purple-200">Ou continuer avec</span>
+                            <span className="bg-blue-900/50 px-4 text-blue-200">Ou continuer avec</span>
                         </div>
                     </div>
 
@@ -160,7 +160,7 @@ export default function LoginPage() {
                     </button>
 
                     {/* Sign Up Link */}
-                    <p className="text-purple-200 text-center mt-6 text-sm">
+                    <p className="text-blue-200 text-center mt-6 text-sm">
                         Pas encore de compte ?{' '}
                         <Link href="/signup" className="text-white font-semibold hover:underline">
                             Créer un compte
