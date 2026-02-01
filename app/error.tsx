@@ -12,6 +12,8 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const { currentTheme } = useTheme()
+
   useEffect(() => {
     // Log the error to an error reporting service
     console.error('Application error:', error)

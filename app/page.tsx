@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, GraduationCap, Target, TrendingUp, Sparkles, Brain, ChartBar, Zap, Star, Shield } from 'lucide-react'
+import { ArrowRight, GraduationCap, Target, TrendingUp, Brain, ChartBar, Shield } from 'lucide-react'
 import { useTheme } from '@/context/ThemeContext'
 import { motion } from 'framer-motion'
 
@@ -29,16 +29,6 @@ export default function Home() {
     }
   }
 
-  const floatingVariants = {
-    animate: {
-      y: [-10, 10, -10],
-      transition: {
-        duration: 3,
-        repeat: Infinity
-      }
-    }
-  }
-
   const features = [
     {
       icon: Brain,
@@ -59,25 +49,9 @@ export default function Home() {
 
   return (
     <div className={`relative min-h-screen bg-gradient-to-br ${currentTheme.gradient} overflow-hidden`}>
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ duration: 8, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5]
-          }}
-          transition={{ duration: 8, repeat: Infinity, delay: 1 }}
-        />
-      </div>
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
 
       {/* Hero Section */}
       <div className="relative container mx-auto px-4 py-20 sm:py-32">
@@ -90,15 +64,11 @@ export default function Home() {
           {/* Badge */}
           <motion.div
             variants={itemVariants}
-            className="inline-flex items-center gap-2 backdrop-blur-md px-6 py-3 rounded-full mb-8 border"
-            style={{
-              backgroundColor: `${currentTheme.primary}15`,
-              borderColor: `${currentTheme.primary}40`,
-            }}
+            className="inline-flex items-center gap-3 backdrop-blur-xl px-8 py-4 rounded-2xl mb-8 border border-white/20 bg-white/5"
           >
-            <Sparkles className="w-5 h-5" style={{ color: currentTheme.accent }} />
-            <span className="text-sm font-semibold text-white">
-              Propulsé par l'IA · 10k+ étudiants nous font confiance
+            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+            <span className="text-sm font-semibold text-white/90 tracking-wide">
+              Intelligence Artificielle Avancée • +10 000 étudiants
             </span>
           </motion.div>
 
@@ -250,28 +220,29 @@ export default function Home() {
           viewport={{ once: true }}
           className="mt-32 text-center"
         >
-          <div className="relative inline-block">
-            <motion.div
-              animate={floatingVariants.animate}
-              className="absolute -top-4 -right-4 text-4xl"
-            >
-              ✨
-            </motion.div>
-            <div className="bg-gradient-to-r from-blue-600/20 to-amber-600/20 backdrop-blur-xl rounded-3xl p-12 sm:p-16 border border-white/20 max-w-4xl">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6">
-                Prêt à trouver votre école idéale ?
-              </h2>
-              <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-                Rejoignez des milliers d'étudiants qui ont déjà trouvé leur voie
-              </p>
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-all shadow-2xl hover:shadow-blue-500/50"
-              >
-                <Star className="w-5 h-5 fill-current" />
-                Créer mon compte gratuit
-                <Zap className="w-5 h-5 fill-current" />
-              </Link>
+          <div className="relative max-w-4xl mx-auto">
+            {/* Decorative Elements */}
+            <div className="absolute -top-12 -left-12 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl"></div>
+            <div className="absolute -bottom-12 -right-12 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl"></div>
+
+            <div className="relative bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-2xl rounded-3xl p-12 sm:p-16 border border-white/20 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-amber-600/5 rounded-3xl"></div>
+
+              <div className="relative z-10">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-6 leading-tight">
+                  Prêt à trouver votre école idéale ?
+                </h2>
+                <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
+                  Rejoignez des milliers d'étudiants qui ont déjà trouvé leur voie grâce à notre plateforme
+                </p>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-12 py-5 rounded-2xl font-bold text-lg hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30 transition-all"
+                >
+                  Commencer gratuitement
+                  <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
             </div>
           </div>
         </motion.div>
